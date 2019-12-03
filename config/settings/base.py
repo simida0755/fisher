@@ -77,6 +77,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "fisher.users.apps.UsersConfig",
+    "fisher.books.apps.BooksConfig",
+    "fisher.gift.apps.GiftConfig",
+    "fisher.wish.apps.WishConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -268,3 +271,6 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 # spider setting
 PER_PAGE = 15
+
+# The number of books uploaded recently
+RECENT_BOOK_COUNT = 30

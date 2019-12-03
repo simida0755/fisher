@@ -2,7 +2,6 @@ from django.apps import AppConfig
 from django.utils.translation import gettext_lazy as _
 
 
-class BooksConfig(AppConfig):
-    name = "fisher.books"
-    verbose_name = "图书"
-
+class WishConfig(AppConfig):
+    name = "fisher.wish"
+    verbose_name = '心愿'

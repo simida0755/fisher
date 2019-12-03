@@ -19,14 +19,25 @@
     <hr>
     {% for book in books.books %}
         <div class="row col-padding">
-            <a href="#" class="">
-{#                {{ url_for('web.book_detail', isbn=book.isbn) }}#}
+            <a href="{% url 'books:book_detail' isbn=book.isbn %}" class="">
+
                 <div class="col-md-2">
                     <img class="book-img-small shadow" src="{{ book.image }}">
                 </div>
                 <div class="col-md-7 flex-vertical description-font">
                     <span class="title">{{ book.title }}</span>
-{#                    <span>{{ [book.author | d(''), book.publisher | d('', true) , '￥' + book.price | d('')] | join(' / ') }}</span>#}
+{#                    <span>{{ [book.author | default_if_none:'', book.publisher | default_if_none:'' , '￥' + book.price | default_if_none:''] | join:' / ' }}</span>#}
+                    <span>
+                        {{ book.author | default_if_none:'' }}
+                        {% if book.publisher or book.price and book.author %}
+                            {{ ' / ' }}
+                        {% endif %}
+                        {{ book.publisher | default_if_none:'' }}
+                        {% if book.price %}
+                            {{ ' / ' }}{{ '￥'  }}
+                        {% endif %}
+                        {{ book.price | default_if_none:'' }}
+                        </span>
                     <span>{{book.intro}}</span>
                     <span class="summary">{{ book.summary | default_if_none:'' }}</span>
                 </div>

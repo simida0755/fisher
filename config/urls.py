@@ -12,6 +12,10 @@ urlpatterns = [
     # User management
     path("users/", include("fisher.users.urls", namespace="users")),
     path("books/", include("fisher.books.urls", namespace="books")),
+    path("gift/", include("fisher.gift.urls", namespace="gift")),
+    path("wish/", include("fisher.wish.urls", namespace="wish")),
+
+
 
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here

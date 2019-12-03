@@ -1,12 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
 {% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='3rd/ui/remodal.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='3rd/ui/remodal-default-theme.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/book-detail.css')}}">
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static '3rd/ui/remodal.css' %}">
+    <link rel="stylesheet" href="{% static '3rd/ui/remodal-default-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/book-detail.css' %}">
 {% endblock %}
 {% block content %}
-    {{ super() }}
+    {{ block.super }}
     <div class="row book-container">
         <div class="col-md-2">
             <img class="book-img" src="{{ book.image }}"/>
@@ -57,13 +58,14 @@
         {% if not has_in_gifts and not has_in_wishes %}
             <div class="col-md-1">
                 <a class="btn btn-outline"
-                   href="#modal">
+                   href="{% url 'gift:gift' book.isbn %}">
                     赠送此书
                 </a>
             </div>
             <div style="margin-left:30px;" class="col-md-1">
                 <a class="btn btn-outline"
-                   href="{{ url_for('web.save_to_wish', isbn=book.isbn) }}">
+                   href="#">
+{#                    {{ url_for('web.save_to_wish', isbn=book.isbn) }}#}
                     加入到心愿清单
                 </a>
             </div>
@@ -85,7 +87,7 @@
             <p class="description-font">{{ book.summary }}</p>
         </div>
     </div>
-    {% if gifts.total!= 0 and not has_in_gifts %}
+    {% if gifts.total != 0 and not has_in_gifts %}
         <div style="margin-top:30px;" class="row">
             <div class="col-md-3"><span class="description-title">向他们请求此书</span></div>
         </div>
@@ -100,7 +102,8 @@
                 </div>
                 <div class="col-md-2">
                     <a class="btn-normal"
-                       href="{{ url_for('web.send_drift', gid=gift.id) }}">向他请求此书</a>
+                       href="#">向他请求此书</a>
+{#                    {{ url_for('web.send_drift', gid=gift.id) }}#}
                 </div>
             </div>
         {% endfor %}
@@ -120,7 +123,8 @@
                 </div>
                 <div class="col-md-2">
                     <a class="btn-normal"
-                       href="{{ url_for('web.satisfy_wish', wid=wish.id, isbn=[book.isbn]) }}">向他赠送此书</a>
+                       href="#">向他赠送此书</a>
+{#                    {{ url_for('web.satisfy_wish', wid=wish.id, isbn=[book.isbn]) }}#}
                 </div>
             </div>
         {% endfor %}
@@ -143,7 +147,7 @@
     </div>
 {% endblock %}
 {% block scripts %}
-    {{ super() }}
-    <script src="{{ url_for('static', filename='3rd/remodal.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/book-detail.js') }}"></script>
+    {{ block.super }}
+    <script src="{% static '3rd/remodal.min.js' %}"></script>
+    <script src="{% static 'js/book-detail.js' %}"></script>
 {% endblock %}
