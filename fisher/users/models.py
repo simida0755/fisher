@@ -34,7 +34,7 @@ class User(AbstractUser):
     gender = models.CharField('性别', max_length=10,choices=gender_choices,default='female')
     adress = models.CharField('地址', max_length=100,default='')
     mobile = models.CharField('手机号', max_length=11,null=True,blank=True)
-    beans = models.FloatField('豆子', default=0)
+    beans = models.FloatField('豆子', default=1)
     send_counter = models.IntegerField('送出', default=0)
     receive_counter = models.IntegerField('收到', default=0)
     image = models.ImageField('头像', upload_to='image/%Y%m', default='image/default.png',max_length=100)
@@ -60,3 +60,15 @@ class User(AbstractUser):
             return True
         else:
             return False
+
+    def is_gift_or_wish(self,isbn):
+        #未判断isbn，需在传入之前判断
+        yushu_book = YuShuBook()
+        yushu_book.search_by_isbn(isbn)
+        gift = Gift.objects.filter(user = self,isbn=isbn).first()
+        wish = Wish.objects.filter(user = self,isbn = isbn).first()
+        if gift:
+            return gift
+        if wish:
+            return wish
+        return False

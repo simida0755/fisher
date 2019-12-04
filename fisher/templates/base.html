@@ -45,16 +45,14 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a id="gifts" href="#"
-{#                       {{ url_for('web.my_gifts') }}#}
+                    <a id="gifts" href="{% url 'gift:user' %}"
                        class="flex-vertical-hor-center">
                         <img src="{% static 'images/gift.png' %}"/>
                         <span>赠送清单</span>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a id="wishes" href="#"
-{#                       {{ url_for('web.my_wish') }}#}
+                    <a id="wishes" href="{% url 'wish:user' %}"
                        class="flex-vertical-hor-center">
                         <img src="{% static 'images/wish.png' %}"/>
                         <span>心愿清单</span>
@@ -74,15 +72,15 @@
     <div class="container-height flex-vertical-center float-menu">
         {% if not request.user.is_authenticated %}
             <div style="float:right">
-                <a href="#">登录</a>
+                <a href="{% url 'account_login' %}">登录</a>
 {#                {{ url_for('web.login') }}#}
-                <a style="margin-left: 40px;" href="#">注册</a>
+                <a style="margin-left: 40px;" href="{% url 'account_signup' %}">注册</a>
 {#            {{ url_for('web.register') }}#}
             </div>
         {% else %}
             <a href="#">{{ request.user.username }}的鱼书</a>
 {#            {{ url_for('web.personal_center') }} {{ current_user.nickname }}#}
-            <a style="margin-left: 40px;" href="#">注销</a>
+            <a style="margin-left: 40px;" href="{% url 'account_logout' %}">注销</a>
 {#            {{ url_for('web.logout') }}#}
         {% endif %}
     </div>

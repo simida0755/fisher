@@ -45,10 +45,10 @@
                     <span>ISBN：</span>
                     <span id="isbn">{{ book.isbn }}</span>
                 </div>
-                {% if wishes.total or gifts.total %}
+                {% if trade_wishes or trade_gifts %}
                     <div class="color-count">
-                        <span>{{ wishes.total }}人想要 / </span>
-                        <span>{{ gifts.total}}人可赠送</span>
+                        <span>{{ trade_wishes.count }}人想要 / </span>
+                        <span>{{ trade_gifts.count }}人可赠送</span>
                     </div>
                 {% endif %}
             </div>
@@ -58,13 +58,13 @@
         {% if not has_in_gifts and not has_in_wishes %}
             <div class="col-md-1">
                 <a class="btn btn-outline"
-                   href="{% url 'gift:gift' book.isbn %}">
+                   href="{% url 'gift:create' book.isbn %}">
                     赠送此书
                 </a>
             </div>
             <div style="margin-left:30px;" class="col-md-1">
                 <a class="btn btn-outline"
-                   href="#">
+                   href="{% url 'wish:create' book.isbn %}">
 {#                    {{ url_for('web.save_to_wish', isbn=book.isbn) }}#}
                     加入到心愿清单
                 </a>
@@ -87,43 +87,43 @@
             <p class="description-font">{{ book.summary }}</p>
         </div>
     </div>
-    {% if gifts.total != 0 and not has_in_gifts %}
+    {% if trade_gifts != 0 and  has_in_gifts %}
         <div style="margin-top:30px;" class="row">
-            <div class="col-md-3"><span class="description-title">向他们请求此书</span></div>
+            <div class="col-md-3"><span class="description-title">向他们赠送此书</span></div>
         </div>
         <hr style="margin-top:5px;"/>
-        {% for gift in gifts.trades %}
+        {% for gift in trade_gifts %}
             <div style="margin-top:30px;" class="row">
                 <div class="col-md-1">
-                    {{ gift.user_name }}
+                    {{ gift.user.username }}
                 </div>
                 <div class="col-md-2 description-font">
-                    上传于{{ gift.time }}
+                    上传于{{ gift.create_time }}
                 </div>
                 <div class="col-md-2">
                     <a class="btn-normal"
-                       href="#">向他请求此书</a>
+                       href="#">向他赠送此书</a>
 {#                    {{ url_for('web.send_drift', gid=gift.id) }}#}
                 </div>
             </div>
         {% endfor %}
     {% endif %}
-    {% if wishes.total != 0 and has_in_gifts %}
+    {% if trade_wishes != 0 and has_in_wishes  or not request.user.is_authenticated %}
         <div style="margin-top:30px;" class="row">
-            <div class="col-md-3"><span class="description-title">向他们赠送此书</span></div>
+            <div class="col-md-3"><span class="description-title">向他们请求此书</span></div>
         </div>
         <hr style="margin-top:5px;"/>
-        {% for wish in wishes.trades %}
+        {% for wish in trade_gifts %}
             <div style="margin-top:30px;" class="row">
                 <div class="col-md-1">
-                    {{ wish.user_name }}
+                    {{ wish.user.username }}
                 </div>
                 <div class="col-md-2 description-font">
-                    上传于{{ wish.time }}
+                    上传于{{ wish.create_time }}
                 </div>
                 <div class="col-md-2">
                     <a class="btn-normal"
-                       href="#">向他赠送此书</a>
+                       href="#">向他请求此书</a>
 {#                    {{ url_for('web.satisfy_wish', wid=wish.id, isbn=[book.isbn]) }}#}
                 </div>
             </div>
