@@ -80,6 +80,7 @@ LOCAL_APPS = [
     "fisher.books.apps.BooksConfig",
     "fisher.gift.apps.GiftConfig",
     "fisher.wish.apps.WishConfig",
+    "fisher.drift.apps.DriftConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -221,7 +222,7 @@ EMAIL_PORT = env('DJANGO_EMAIL_PORT', default=465)
 EMAIL_HOST_USER = env('DJANGO_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('DJANGO_EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL')
-
+EMAIL_FROM = EMAIL_HOST_USER
 
 
 # Celery
@@ -270,7 +271,10 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # ------------------------------------------------------------------------------
 
 # spider setting
-PER_PAGE = 15
+PER_PAGE = env("PER_PAGE",default =30)
 
 # The number of books uploaded recently
-RECENT_BOOK_COUNT = 30
+RECENT_BOOK_COUNT = env('RECENT_BOOK_COUNT', default=30)
+
+# Give books add user beans
+BEANS_UPLOAD_ONE_BOOK = env('BEANS_UPLOAD_ONE_BOOK',default=0.5)

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 {% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/drift.css')}}">
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/drift.css' %}">
 {% endblock %}
 {% block navbar %}
 {% endblock %}
@@ -10,14 +11,14 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="row">
                 <div class="col-md-2">
-                    <a id='nav_url' href="{{ url_for('web.index') }}">去首页</a>
+                    <a id='nav_url' href="{% url 'index' %}">去首页</a>
                 </div>
             </div>
             <div class="bg-container">
                 <div class="row">
                     <div class="col-md-12 text-center bg-head">
                         <span class="drift-title">向<span
-                                class="space">{{ gifter.nickname }}</span>请求这本书</span>
+                                class="space">{{ gifter.username }}</span>请求这本书</span>
                     </div>
                 </div>
                 <div style="margin-top:15px;" class="row">
@@ -37,7 +38,7 @@
                         <span class="main-color">本次交易将消耗你1个鱼豆，你当前还有{{ user_beans }}个鱼豆</span>
                     </div>
                 </div>
-                <form action="" method="post">
+                <form action="{% url 'drift:send_drift' gift.id %}" method="post">
                     <div style="margin-top:20px;" class="row">
                         <div class="col-md-10 col-md-offset-1 flex-vertical input-margin">
                             <label class="sub-title-color" for="recipient_name">收件人姓名</label>
@@ -46,7 +47,8 @@
                                     <input placeholder="请填写收件人姓名" id="recipient_name"
                                            name="recipient_name"
                                            class="normal-input btn-block form-control"
-                                           value="{{ form.recipient_name.data | default('', true) }}">
+                                           value="{{ form.username }}">
+{#                                    {{ form.recipient_name.data | default('', true) }}#}
                                 </div>
                             </div>
                             <label class="sub-title-color" for="mobile">联系电话</label>
@@ -55,17 +57,20 @@
                                     <input placeholder="如13818181818" id="mobile"
                                            name="mobile"
                                            class="normal-input btn-block form-control"
-                                           value="{{ form.mobile.data | default('', true) }}">
+                                           value="{{ form.mobile }}">
+{#                                    {{ form.mobile.data | default('', true) }}#}
                                 </div>
                             </div>
                             <label class="sub-title-color" for="address">书籍收件地址</label>
                     <textarea class="form-control" rows="3" id="address" name="address"
-                              placeholder="如，张三 北京市清华大学666室。请务必确保该地址能够收到书籍">{{ form.address.data | default('',true) }}</textarea>
+                              placeholder="如，张三 北京市清华大学666室。请务必确保该地址能够收到书籍">#</textarea>
+{#                            {{ form.address.data | default('',true) }}#}
                             <label class="sub-title-color" for="message">对他 / 她
                                 说的话</label>
                         <textarea class="form-control" id="message" name="message"
                                   rows="4"
-                                  placeholder="如有一些特别的要求，可以在这里填写">{{ form.message.data | default('',true) }}</textarea>
+                                  placeholder="如有一些特别的要求，可以在这里填写">{{ form.message }}</textarea>
+{#                            {{ form.message.data | default('',true) }}#}
                         </div>
                     </div>
                     <div class="row">
@@ -83,6 +88,6 @@
     </div>
 {% endblock %}
 {% block scripts %}
-    <script src="{{ url_for('static', filename='3rd/jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/drift.js') }}"></script>
+    <script src="{% static '3rd/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/drift.js' %}"></script>
 {% endblock %}

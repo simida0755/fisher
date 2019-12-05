@@ -16,6 +16,7 @@ urlpatterns = [
     path("books/", include("fisher.books.urls", namespace="books")),
     path("gift/", include("fisher.gift.urls", namespace="gift")),
     path("wish/", include("fisher.wish.urls", namespace="wish")),
+    path("drift/", include("fisher.drift.urls", namespace="drift")),
 
 
 

@@ -16,10 +16,15 @@ class Gift(Base):
         verbose_name_plural = verbose_name
         unique_together = ('user', 'isbn')  # 联合唯一键
 
-    @classmethod
-    def get_user_gift(cls, user):
-        gift = user.user__gift.all()
-        return gift
+
+    # def get_user_gift(self, user):
+    #     gift = user.user__gift.all()
+    #     return gift
+
+    def is_yourself_gift(self,user):
+        if self.user == user:
+            return True
+
 
     # @classmethod
     # def get_wish_counts(cls,isbn_list):

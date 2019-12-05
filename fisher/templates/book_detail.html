@@ -87,9 +87,31 @@
             <p class="description-font">{{ book.summary }}</p>
         </div>
     </div>
-    {% if trade_gifts != 0 and  has_in_gifts %}
+    {% if trade_wishes != 0 and  has_in_gifts %}
         <div style="margin-top:30px;" class="row">
             <div class="col-md-3"><span class="description-title">向他们赠送此书</span></div>
+        </div>
+        <hr style="margin-top:5px;"/>
+        {% for wish in trade_wishes %}
+            <div style="margin-top:30px;" class="row">
+                <div class="col-md-1">
+                    {{ wish.user.username }}
+                </div>
+                <div class="col-md-2 description-font">
+                    上传于{{ wish.create_time }}
+                </div>
+                <div class="col-md-2">
+                    <a class="btn-normal"
+                       href="#">向他赠送此书</a>
+{#                    {{ url_for('web.send_drift', gid=gift.id) }}#}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if trade_gifts != 0 and not has_in_gifts %}
+{#        什么情况不显示，1，礼物列表为0，2.自己的礼物，什么情况显示，礼物不为0，且不是自己的礼物#}
+        <div style="margin-top:30px;" class="row">
+            <div class="col-md-3"><span class="description-title">向他们请求此书</span></div>
         </div>
         <hr style="margin-top:5px;"/>
         {% for gift in trade_gifts %}
@@ -102,28 +124,7 @@
                 </div>
                 <div class="col-md-2">
                     <a class="btn-normal"
-                       href="#">向他赠送此书</a>
-{#                    {{ url_for('web.send_drift', gid=gift.id) }}#}
-                </div>
-            </div>
-        {% endfor %}
-    {% endif %}
-    {% if trade_wishes != 0 and has_in_wishes  or not request.user.is_authenticated %}
-        <div style="margin-top:30px;" class="row">
-            <div class="col-md-3"><span class="description-title">向他们请求此书</span></div>
-        </div>
-        <hr style="margin-top:5px;"/>
-        {% for wish in trade_gifts %}
-            <div style="margin-top:30px;" class="row">
-                <div class="col-md-1">
-                    {{ wish.user.username }}
-                </div>
-                <div class="col-md-2 description-font">
-                    上传于{{ wish.create_time }}
-                </div>
-                <div class="col-md-2">
-                    <a class="btn-normal"
-                       href="#">向他请求此书</a>
+                       href="{% url 'drift:send_drift' gift.id %}">向他请求此书</a>
 {#                    {{ url_for('web.satisfy_wish', wid=wish.id, isbn=[book.isbn]) }}#}
                 </div>
             </div>

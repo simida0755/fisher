@@ -13,6 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 # send_counter = Column(Integer, default=0)
 # receive_counter = Column(Integer, default=0)
 from fisher.books.spider.yushu_book import YuShuBook
+from fisher.drift.models import Drift
 from fisher.gift.models import Gift
 from fisher.libs.helper import is_isbn_or_key
 from fisher.wish.models import Wish
@@ -72,3 +73,23 @@ class User(AbstractUser):
         if wish:
             return wish
         return False
+
+    def can_satisfied_wish(self,gid = None):
+        if gid:
+            gift = Gift.objects.get(id = gid)
+            if gift.user == self:
+                return False
+        if self.beans < 1:
+            return False
+        success_gifts = Drift.objects.filter(pending = 2,gifter = self.id).count()
+        success_receive = Drift.objects.filter(pending = 2, requester_id =self).count()
+        return False if success_gifts <= success_receive-2 else True
+
+    @property
+    def summary(self):
+        return dict(
+            nickname=self.username,
+            beans=self.beans,
+            email=self.email,
+            send_receive=str(self.send_counter) + '/' + str(self.receive_counter)
+        )
