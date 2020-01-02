@@ -3,16 +3,17 @@ __author__ = 'john'
 
 class BookViewModel:
     def __init__(self,book):
-        self.title = book['title']
-        self.publisher = book['publisher']
-        self.binding = book['binding']
-        self.author = book['author']
-        self.image = book['image']
-        self.price = book['price']
-        self.pubdate = book['pubdate']
-        self.summary = book['summary']
-        self.isbn = book['isbn']
-        self.pages = book['pages']
+        is_dict = isinstance(book, dict)
+        self.title = book['title'] if is_dict else book.title
+        self.publisher = book['publisher'] if is_dict else book.publisher
+        self.binding = book['binding'] if is_dict else book.binding
+        self.author = book['author'] if is_dict else book.author
+        self.image = book['image'] if is_dict else book.image
+        self.price = book['price'] if is_dict else book.price
+        self.pubdate = book['pubdate'] if is_dict else book.pubdate
+        self.summary = book['summary'] if is_dict else book.summary
+        self.isbn = book['isbn'] if is_dict else book.isbn
+        self.pages = book['pages'] if is_dict else book.pages
 
     @property
     def intor(self):

@@ -43,6 +43,7 @@ django-extensions = "==2.2.1"
 django-coverage-plugin = "==1.6.0"
 pytest-django = "==3.5.1"
 test-unidecode = "==1.3"
+django-simple-captcha = {index = "https://pypi.douban.com/simple",version = "*"}
 
 [requires]
 python_version = "3.7"

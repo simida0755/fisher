@@ -1,4 +1,6 @@
 # _*_ coding: utf-8 _*_
+from django.template import loader
+
 from fisher.books.view_models.book import BookViewModel
 from fisher.drift.models import Drift
 
@@ -16,10 +18,14 @@ class DriftService:
     @classmethod
     def save_a_drift(cls, drift_form, gift,user):
 
-        book = BookViewModel(gift.book.first)
+        book = BookViewModel(gift.book)
 
         drift = Drift()
         # drift_form.populate_obj(drift)
+        drift.recipient_name = user.username
+        drift.address = drift_form.cleaned_data['address']
+        drift.mobile = drift_form.cleaned_data['mobile']
+        drift.pending = 1
         drift.gift_id = gift.id
         drift.requester_id = user.id
         drift.requester_nickname = user.username
@@ -37,6 +43,11 @@ class DriftService:
         # 但是赠送者鱼豆不会立刻+1
         # current_gift.user.beans += 1
         drift.save()
-        send_template_email(gift.user.email, '有人想要一本书', 'email/get_gift',
-                   wisher=user,
-                   gift=gift)
+        html_content = loader.render_to_string(
+            'email/get_gift.html',  # 需要渲染的html模板
+            {
+        'wisher':user,
+        'gift':gift # 参数
+        }
+        )
+        send_template_email(gift.user.email, '有人想要一本书', html_content)

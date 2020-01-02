@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
@@ -15,17 +16,18 @@ from fisher.wish.models import Wish
 class book_search_view(View):
 
     def get(self,request):
-        form = SearchForm(request.GET)
-        books = BookCollection()
-        if form.is_valid():
-            q = form.cleaned_data['q']
-            page = form.cleaned_data['page']
-            isbn_or_key = is_isbn_or_key(q)
-            yushu_book = YuShuBook()
-            if isbn_or_key == 'isbn':
-                    yushu_book.search_by_isbn(q)
-            else:
-                yushu_book.search_by_keyword(q, page)
+        form = SearchForm(request.GET) #创建form实例
+        books = BookCollection()    #创建书籍集合实例
+        if form.is_valid(): #判断form验证是否通过
+            q = form.cleaned_data['q']  #取出form里的Q
+            page = form.cleaned_data['page']    #取出form里的page
+            isbn_or_key = is_isbn_or_key(q) #判断是isbn，还是key
+            yushu_book = YuShuBook()    #创建一个书籍搜索实例
+            if isbn_or_key == 'isbn':   #如果关键字是isbn
+
+                    yushu_book.search_by_isbn(q)    #使用书籍搜索实例的搜索ISBN接口方法
+            else:   #如果关键字是key
+                yushu_book.search_by_keyword(q, page)   #使用key接口方法
 
             books.fill(yushu_book, q)
         else:
@@ -72,11 +74,6 @@ class IndexView(ListView):
 
     def get_queryset(self):
         #按时间倒序，按isbn分组，返回不重复的isbn的gift列表
-        isbn_dict = Gift.objects.values('isbn').distinct().order_by('-create_time').all()[:30]
-        gift_list = []
-        for isbn in isbn_dict:
-            print(isbn)
-            gift = Gift.objects.filter(isbn = isbn.values() ).first()
-            if gift:
-                list.append(gift)
+        gift_list = Gift.recent()
+
         return gift_list

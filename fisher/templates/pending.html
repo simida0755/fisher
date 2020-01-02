@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 {% block head %}
-    {{ super() }}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/pending.css')}}">
+    {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/pending.css' %}">
 {% endblock %}
 {% block content %}
     <div class="row module-title">
@@ -9,7 +10,7 @@
             <span class='sub-title'>交易记录</span>
         </div>
     </div>
-    {% for drift in drifts %}
+    {% for drift in drift_list %}
         <div style="margin-top:20px;" class="row drift-container">
             <div class="col-md-12">
                 <div class="row">
@@ -20,36 +21,60 @@
                          class="col-md-8 flex-vertical description">
                         <div><span>书籍名：</span><span>{{ drift.book_title }}</span></div>
                         <div><span>作者：</span><span>{{ drift.book_author }}</span></div>
-                        <div><span>发起日期：</span><span>{{ drift.date }}</span></div>
+                        <div><span>发起日期：</span><span>{{ drift.create_time }}</span></div>
                         <div>
-                            {% if drift.you_are == 'requester' %}
+                            {% if drift.requester_id == request.user.id %}
                                 <span>向他请求：</span>
+                                <span>{{ drift.gifter_nickname }}</span>
                             {% else %}
                                 <span>请求者：</span>
+                                <span>{{ drift.requester_nickname }}</span>
                             {% endif %}
-                            <span>{{ drift.operator }}</span>
                         </div>
                         <div><span>状态：</span><span
-                                class="status-color">{{ drift.status_str }}</span></div>
+                            {% if drift.get_pending_display == 'wating' and drift.requester_id == request.user.id%}
+                                class="status-color">等待对方邮寄</span></div>
+                            {% endif %}
+                            {% if drift.get_pending_display == 'wating' and drift.requester_id != request.user.id%}
+                                class="status-color">等待你邮寄</span></div>
+                            {% endif %}
+                            {% if drift.get_pending_display == 'reject' and drift.requester_id == request.user.id %}
+                                class="status-color">对方已拒绝</span></div>
+                            {% endif %}
+                            {% if drift.get_pending_display == 'reject' and drift.requester_id != request.user.id %}
+                                class="status-color">你已拒绝</span></div>
+                            {% endif %}
+                            {% if drift.get_pending_display == 'redraw' and drift.requester_id == request.user.id %}
+                                class="status-color">你已撤销</span></div>
+                            {% endif %}
+                            {% if drift.get_pending_display == 'redraw' and drift.requester_id != request.user.id %}
+                                class="status-color">对方已撤销</span></div>
+                            {% endif %}
+                            {% if drift.get_pending_display == 'success' and drift.requester_id == request.user.id %}
+                                class="status-color">对方已邮寄</span></div>
+                            {% endif %}
+                            {% if drift.get_pending_display == 'success' and drift.requester_id != request.user.id %}
+                                class="status-color">你已邮寄</span></div>
+                            {% endif %}
                         <div><span>邮寄地址：</span><span
                                 class="space">{{ drift.recipient_name }}</span><span>{{ drift.address }}</span>
                         </div>
                         <div><span>联系电话：</span><span>{{ drift.mobile }}</span></div>
                     </div>
                     <div class="col-md-2 flex-vertical">
-                        {% if drift.you_are == 'gifter' %}
-                            {% if drift.status.value == 1 %}
-                                <a href="{{ url_for('web.mailed_drift', did=drift.drift_id) }}">
+                        {% if drift.requester_id != request.user.id %}
+                            {% if drift.get_pending_display == 'wating' %}
+                                <a href="{% url 'drift:mailed' drift.pk %}">
                                     <span class="btn-normal">已邮寄</span>
                                 </a>
-                                <a style="margin-top:20px;" href="{{ url_for('web.reject_drift', did=drift.drift_id) }}">
+                                <a style="margin-top:20px;" href="{% url 'drift:reject' drift.pk %}">
                                     <span class="btn-shadow">拒&nbsp;&nbsp;&nbsp;绝</span>
                                 </a>
                             {% endif %}
                         {% endif %}
-                        {% if drift.you_are == 'requester' %}
-                            {% if drift.status.value == 1 %}
-                                <a href="{{ url_for('web.redraw_drift', did=drift.drift_id) }}">
+                        {% if drift.requester_id == request.user.id %}
+                            {% if drift.get_pending_display == 'wating' %}
+                                <a href="{% url 'drift:redraw' drift.pk %}">
                                         <span class="btn-normal">撤 销</span>
                                 </a>
                             {% endif %}
@@ -58,13 +83,8 @@
                 </div>
                 <div style="margin-top:20px;" class="row message-container">
                     <div class="col-md-12">
-                        {% if drift.you_are == 'receiver' %}
-                            {% set message_flag = '他的留言：' %}
-                        {% else %}
-                            {% set message_flag = '你的留言：' %}
-                        {% endif %}
                         <p><span
-                                class="message-flag">{{ message_flag }}</span>
+                                class="message-flag">{% if drift.requester_id == request.user.id %}你的留言{% else %}他的留言{% endif %}</span>
                             <span>{{ drift.message }}</span>
                         </p>
                     </div>

@@ -15,7 +15,7 @@ from fisher.base.model import Base
 
 class Book(Base):
     title = models.CharField('书名', max_length=50)
-    auther = models.CharField('作者', max_length=30)
+    author = models.CharField('作者', max_length=30)
     binding = models.CharField('精装', max_length=20)
     publisher = models.CharField('出版商', max_length=50)
     price = models.CharField('价格', max_length=20)
@@ -26,3 +26,12 @@ class Book(Base):
     image = models.CharField('封面',max_length=50)
 
 
+    @property
+    def intor(self):
+        intors = filter(lambda x: True if x else False,
+                        [self.author, self.publisher, self.price])
+        return '/'.join(intors)
+
+    def auther_save(self,dict):
+        if dict['author']:
+            self.author = dict['author'][0]

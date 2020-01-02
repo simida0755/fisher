@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import ListView
 from django.views.generic.base import View
 
 from fisher.drift.forms import DriftForm
+from fisher.drift.models import Drift
 from fisher.gift.models import Gift
 from fisher.service.drift import DriftService
 
@@ -28,13 +30,41 @@ class send_drift(LoginRequiredMixin, View):
         return render(request, 'drift.html',{'user_beans':user.beans,'gift':gift,'gifter':gifter,'for':drift_form})
 
     def post(self,request,pk):
-        drift_form = DriftForm(request.form)
+        drift_form = DriftForm(request.POST)
         gift = Gift.objects.get(id = pk)
         user = request.user
         if drift_form.is_valid():
             DriftService.save_a_drift(drift_form, gift,user)
+            messages.success(self.request, '已发送邮件')
+        return redirect(reverse('books:book_detail', kwargs={'isbn':gift.isbn}))
 
-
-class my_pending(View):
+class my_pending(LoginRequiredMixin, View):
     def get(self,request):
-        return render(request,'pending.html')
+        user = request.user
+        drift_list = Drift.objects.filter(Q(requester_id=user.id) | Q(gifter_id=user.id)).all().order_by('-create_time')
+
+        return render(request,'pending.html',{'drift_list':drift_list})
+
+
+class redraw_drift(LoginRequiredMixin, View):
+    def get(self,request,pk):
+        drift = Drift.objects.get(requester_id=request.user.id,pk = pk)
+        drift.pending = 4
+        drift.save()
+        return redirect(reverse('drift:pending'))
+
+class mailed_drift(LoginRequiredMixin, View):
+    def get(self,request,pk):
+        drift = Drift.objects.get(gifter_id=request.user.id,pk = pk)
+        # 2对应success
+        drift.pending = 2
+        drift.save()
+        return redirect(reverse('drift:pending'))
+
+class reject_drift(LoginRequiredMixin, View):
+    def get(self,request,pk):
+        drift = Drift.objects.get(gifter_id=request.user.id,pk = pk)
+        drift.pending = 3
+        drift.save()
+        return redirect(reverse('drift:pending'))
+

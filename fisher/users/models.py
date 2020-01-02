@@ -81,8 +81,8 @@ class User(AbstractUser):
                 return False
         if self.beans < 1:
             return False
-        success_gifts = Drift.objects.filter(pending = 2,gifter = self.id).count()
-        success_receive = Drift.objects.filter(pending = 2, requester_id =self).count()
+        success_gifts = Drift.objects.filter(pending = 2,gifter_id = self.id).count()
+        success_receive = Drift.objects.filter(pending = 2, requester_id =self.id).count()
         return False if success_gifts <= success_receive-2 else True
 
     @property

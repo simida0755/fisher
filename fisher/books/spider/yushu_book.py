@@ -1,6 +1,8 @@
 # _*_ coding: utf-8 _*_
 
 from django.conf import settings
+
+from fisher.books.models import Book
 from fisher.libs.httper import HTTP
 
 __author__ = 'john'
@@ -14,12 +16,19 @@ class YuShuBook:
         self.books = []
 
     def search_by_isbn(self,isbn):
+        #先查询数据库是否有该数据
+        result = Book.objects.filter(isbn = isbn).first()
+        if result:
+            self.__fill_single(result)
+            return result
         url = self.isbn_url.format(isbn)
         result = HTTP.get(url)
         self.__fill_single(result)
-
-        # 价值
-
+        #接口获取图书后，保存
+        book = Book()
+        book.set_attrs(self.books[0])
+        book.auther_save(self.books[0])
+        book.save()
         # dict
         return result
 

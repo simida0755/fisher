@@ -1,5 +1,9 @@
 from __future__ import absolute_import, unicode_literals
 # _*_ coding: utf-8 _*_
+import time
+
+from django.core.mail import send_mail
+
 __author__ = 'john'
 
 
@@ -10,9 +14,9 @@ from django.conf import settings
 
 if not settings.configured:
     # set the default Django settings module for the 'celery' program.
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')  # pragma: no cover
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')  # pragma: no cover
 
-app = Celery('zanhu')
+app = Celery('fisher')
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
 # - namespace='CELERY' means all celery-related configuration keys
@@ -21,7 +25,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 
 class CeleryAppConfig(AppConfig):
-    name = 'zanhu.taskapp'
+    name = 'fisher.taskapp'
     verbose_name = 'Celery Config'
 
     def ready(self):
@@ -32,3 +36,10 @@ class CeleryAppConfig(AppConfig):
 @app.task(bind=True)
 def debug_task(self):
     print(f'Request: {self.request!r}')  # pragma: no cover
+
+
+@app.task()
+def send_verify_email(*args,**kwargs):
+    for i in range(20):
+        time.sleep(1)
+    send_mail(*args,**kwargs)

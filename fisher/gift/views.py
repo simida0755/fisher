@@ -32,3 +32,13 @@ class user_gift_view(LoginRequiredMixin,ListView):
     def get_queryset(self):
         queryset = Gift.objects.filter(user=self.request.user)
         return queryset
+
+
+class redraw_gift_view(LoginRequiredMixin,View):
+
+    def get(self,request,gid):
+        gift = Gift.objects.get(id = gid,user = request.user)
+        gift.delete()
+        request.user.beans -= settings.BEANS_UPLOAD_ONE_BOOK
+        return redirect(reverse('gift:user'))
+

@@ -63,7 +63,7 @@
                             </div>
                             <label class="sub-title-color" for="address">书籍收件地址</label>
                     <textarea class="form-control" rows="3" id="address" name="address"
-                              placeholder="如，张三 北京市清华大学666室。请务必确保该地址能够收到书籍">#</textarea>
+                              placeholder="如，张三 北京市清华大学666室。请务必确保该地址能够收到书籍">{{ form.address }}</textarea>
 {#                            {{ form.address.data | default('',true) }}#}
                             <label class="sub-title-color" for="message">对他 / 她
                                 说的话</label>
@@ -79,9 +79,10 @@
                             <input style="margin-top:12px;" type="submit"
                                    class="btn btn-big btn-block" value="提交">
                         <span style="margin-top:15px;"
-                              class="main-color">提交信息，等待{{ gifter.nickname }}将书籍邮寄给你</span>
+                              class="main-color">提交信息，等待{{ gifter.username }}将书籍邮寄给你</span>
                         </div>
                     </div>
+                    {% csrf_token %}
                 </form>
             </div>
         </div>

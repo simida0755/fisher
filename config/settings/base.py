@@ -71,8 +71,11 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.github",
     "rest_framework",
     "django_celery_beat",
+    'captcha',
+    'djcelery_email',
 ]
 
 LOCAL_APPS = [

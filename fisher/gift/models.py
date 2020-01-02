@@ -14,6 +14,7 @@ class Gift(Base):
     class Meta:
         verbose_name = '礼物'
         verbose_name_plural = verbose_name
+        ordering = ('-create_time',)
         unique_together = ('user', 'isbn')  # 联合唯一键
 
 
@@ -58,9 +59,8 @@ class Gift(Base):
 
     @classmethod
     def recent(cls):
-        recent_gift = Gift.objects.filter_by(
-            launched=False).group_by(
-            Gift.isbn).order_by(
-            Gift.create_time).limit(
-            settings.RECENT_BOOK_COUNT).distinct().all()
+        recent_gift = Gift.objects.raw('select * from (select * from gift_gift order by create_time desc) tt group by isbn')
+        print(recent_gift)
         return recent_gift
+
+

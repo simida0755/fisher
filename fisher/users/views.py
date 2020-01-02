@@ -1,5 +1,7 @@
+from allauth.account.views import SignupView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import DetailView, RedirectView, UpdateView, ListView
 from django.contrib import messages
@@ -7,6 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import View
 
 from fisher.gift.models import Gift
+from fisher.taskapp.celery import send_verify_email
+from fisher.users.forms import CaptchaSignupForm
 
 User = get_user_model()
 
@@ -53,4 +57,13 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 user_redirect_view = UserRedirectView.as_view()
 
 
+class UserSingupView(SignupView):
+    template_name = 'users/signup.html'
+    form_class = CaptchaSignupForm
 
+user_signup_view = UserSingupView.as_view()
+
+class user_email_view(LoginRequiredMixin,View):
+    def get(self,request):
+        send_verify_email.delay('测试邮件','测试邮件的内容','simida0755@sina.com',['simida027@163.com'])
+        return render(request,'users/user_email.html')

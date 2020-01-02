@@ -40,9 +40,10 @@ def send_register_eamil_dj(email,token):
         if send_status:
             pass
 
-def send_template_email(email_address,email_title, template, **kwargs):
+def send_template_email(email_address,email_title, template):
     # 发送之前先保存到数据库，到时候查询链接是否存在
     # 实例化一个EmailVerifyRecord对象
+
 
 
     # 使用Django内置函数完成邮件发送。四个参数：主题，邮件内容，从哪里发，接受者list

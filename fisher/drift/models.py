@@ -25,7 +25,7 @@ class Drift(Base):
     # requester_id = Column(Integer, ForeignKey('user.id'))
     # requester = relationship('User')
     requester_id = models.IntegerField(verbose_name='请求者')
-    requester_nickname = models.IntegerField(verbose_name='发送者昵称')
+    requester_nickname = models.CharField(max_length=20,verbose_name='发送者昵称')
     gifter_id = models.IntegerField(verbose_name='送礼物人_id')
     gift_id = models.IntegerField(verbose_name='礼物_id')
     gifter_nickname = models.CharField(max_length=20, verbose_name='礼物者_昵称')
@@ -55,3 +55,5 @@ class Drift(Base):
             }
         }
         return key_map[self.pending][key]
+
+

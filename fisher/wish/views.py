@@ -32,3 +32,11 @@ class user_wish_view(LoginRequiredMixin,ListView):
     def get_queryset(self):
         queryset = Wish.objects.filter(user=self.request.user)
         return queryset
+
+
+class redraw_wish_view(LoginRequiredMixin,View):
+
+    def get(self,request,wid):
+        wish = Wish.objects.get(id = wid,user = request.user)
+        wish.delete()
+        return redirect(reverse('wish:user'))

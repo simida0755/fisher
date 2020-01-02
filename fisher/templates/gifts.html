@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block head %}
-    {{ super() }}
+    {{ block.super }}
    <link rel="stylesheet" href="{{ url_for('static', filename='css/gifts.css')}}">
 {% endblock %}
 {% block content %}
