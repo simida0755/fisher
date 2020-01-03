@@ -11,7 +11,7 @@ from fisher.books.view_models.book import BookCollection, BookViewModel
 from fisher.gift.models import Gift
 from fisher.libs.helper import is_isbn_or_key
 from fisher.wish.models import Wish
-
+#hehe
 
 class book_search_view(View):
 
