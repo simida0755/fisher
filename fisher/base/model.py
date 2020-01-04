@@ -12,5 +12,5 @@ class Base(models.Model):
 
     def set_attrs(self, attrs_dict):
         for key,value in attrs_dict.items():
-            if hasattr(self, key) and key != 'id':
+            if hasattr(self, key) and key != 'id' and key != 'summary':
                 setattr(self,key,value)

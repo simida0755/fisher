@@ -1,4 +1,6 @@
 # _*_ coding: utf-8 _*_
+import requests
+
 __author__ = 'john'
 
 

@@ -281,3 +281,5 @@ RECENT_BOOK_COUNT = env('RECENT_BOOK_COUNT', default=30)
 
 # Give books add user beans
 BEANS_UPLOAD_ONE_BOOK = env('BEANS_UPLOAD_ONE_BOOK',default=0.5)
+
+DOUBAN_APIKEY = env('DJANGO_DOUBAN_APIKEY')

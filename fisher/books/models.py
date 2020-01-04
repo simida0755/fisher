@@ -19,7 +19,7 @@ class Book(Base):
     binding = models.CharField('精装', max_length=20)
     publisher = models.CharField('出版商', max_length=50)
     price = models.CharField('价格', max_length=20)
-    pages = models.IntegerField('页数')
+    pages = models.IntegerField('页数',blank=True, null=True)
     pubdate = models.CharField('出版年', max_length=20)
     isbn = models.CharField('isbn',max_length=15,null=False,unique=True)
     summary = models.CharField('内容简介', max_length=1000)

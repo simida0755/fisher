@@ -2,7 +2,7 @@
 __author__ = 'john'
 
 class BookViewModel:
-    def __init__(self,book):
+    def __init__(self,book,key = ''):
         is_dict = isinstance(book, dict)
         self.title = book['title'] if is_dict else book.title
         self.publisher = book['publisher'] if is_dict else book.publisher
