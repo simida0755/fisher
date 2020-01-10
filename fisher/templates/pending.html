@@ -60,13 +60,54 @@
                                 class="space">{{ drift.recipient_name }}</span><span>{{ drift.address }}</span>
                         </div>
                         <div><span>联系电话：</span><span>{{ drift.mobile }}</span></div>
+                        {% if drift.get_pending_display == 'success' and drift.requester_id != request.user.id %}
+                            <div><span>快递单号：</span><span>{{ drift.expressnumber }}</span></div>
+                            {% if drift.express_details.status == '0' %}
+                                    <div class="op_express_delivery_main" style="display: block;">
+                                        <div class="op_express_delivery_main_container">
+                                            <div class="op_express_delivery_main_content opui-scroll-ctrl-content opui-scroll-onwheel">
+                                                <div style="">
+                                                    <ul class="op_express_delivery_timeline_box">
+                                                        {% for line in drift.express_details.result %}
+                                                            <li class="op_express_delivery_timeline_new c-clearfix">
+                                                                <div class="op_express_delivery_timeline_title">
+                                                                    <div class="op_express_delivery_timeline_circle op_express_delivery_timeline_circle">
+                                                                        <i class="c-icon op_express_delivery_timeline_circle_red"></i>
+                                                                    </div>
+                                                                    {% for key,value in line.items %}
+                                                                    <div class="op_express_delivery_timeline_info">2019年12月11日 下午1:51:23<br>【徐州市】 快件已由【菜鸟的徐州御景湾一期今世缘华盈超市店】代签收, 如有问题请电联（18752169430 / 4001787878）, 感谢您使用中通快递, 期待再次为您服务!</div>
+                                                                    {% endfor %}
+                                                                        </div>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div><div class="opui-scroll-ctrl-scroll" data-click="{fm:&quot;beha&quot;}" style="height: 278px;"><div class="opui-scroll-axis" style="height: 278px;"></div><div class="opui-scroll-slider OP_LOG_BTN" style="display: block; height: 107px; top: 0px;"><div class="opui-scroll-s-top"></div><div class="opui-scroll-s-bottom"></div><div class="opui-scroll-s-block"></div></div></div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+{#                                    <div class="opui-scroll-ctrl-scroll" data-click="{fm:&quot;beha&quot;}" style="height: 278px;"><div class="opui-scroll-axis" style="height: 278px;"></div><div class="opui-scroll-slider OP_LOG_BTN" style="display: block; height: 107px; top: 52px;"><div class="opui-scroll-s-top"></div><div class="opui-scroll-s-bottom"></div><div class="opui-scroll-s-block"></div></div></div>#}
+                        {% endif %}
                     </div>
                     <div class="col-md-2 flex-vertical">
                         {% if drift.requester_id != request.user.id %}
                             {% if drift.get_pending_display == 'wating' %}
-                                <a href="{% url 'drift:mailed' drift.pk %}">
-                                    <span class="btn-normal">已邮寄</span>
-                                </a>
+                                <span>快递单号：（顺丰快递后续加:寄件人/收件人手机号后四位）</span>
+                                <form action="{% url 'drift:mailed' %}" method="post">
+                                <div class="form-group marb20 {% if form.errors.expressnumber %}errorput{% endif %}">
+                                    <input style="width:100%" id="expressnumber" name="expressnumber" type="text"
+                                           placeholder="快递单号"
+                                           class="none-input"
+                                           value="" />
+                                </div>
+                                    <input type="hidden" id ='drift_pk' name="drift_pk"  value="{{ drift.pk }}">
+                                 <input class="btn-normal" id="jsExpreBtn" type="submit" value="已邮寄" />
+                                    {% for key,error in form.errors.items %}
+                                        {{ error }}
+                                    {% endfor %}
+                                {% csrf_token %}
+                                </form>
+
                                 <a style="margin-top:20px;" href="{% url 'drift:reject' drift.pk %}">
                                     <span class="btn-shadow">拒&nbsp;&nbsp;&nbsp;绝</span>
                                 </a>

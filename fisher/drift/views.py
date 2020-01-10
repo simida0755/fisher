@@ -2,11 +2,11 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.base import View
 
-from fisher.drift.forms import DriftForm
+from fisher.drift.forms import DriftForm, MailDriftForm
 from fisher.drift.models import Drift
 from fisher.gift.models import Gift
 from fisher.service.drift import DriftService
@@ -25,7 +25,7 @@ class send_drift(LoginRequiredMixin, View):
         can = user.can_satisfied_wish()
         if not can:#如果返回False,则是鱼豆不足，返回鱼豆不足页面
             return render('not_enough_beans.html', {'beans':user.beans})
-        gifter = gift.user.summary
+        gifter = gift.user
         drift_form = DriftForm()
         return render(request, 'drift.html',{'user_beans':user.beans,'gift':gift,'gifter':gifter,'for':drift_form})
 
@@ -35,7 +35,7 @@ class send_drift(LoginRequiredMixin, View):
         user = request.user
         if drift_form.is_valid():
             DriftService.save_a_drift(drift_form, gift,user)
-            messages.success(self.request, '已发送邮件')
+            messages.success(self.request, f'已发送邮件{gift.user.username}')
         return redirect(reverse('books:book_detail', kwargs={'isbn':gift.isbn}))
 
 class my_pending(LoginRequiredMixin, View):
@@ -60,6 +60,21 @@ class mailed_drift(LoginRequiredMixin, View):
         drift.pending = 2
         drift.save()
         return redirect(reverse('drift:pending'))
+
+    def post(self,request):
+        form = MailDriftForm(request.POST)
+        user = request.user
+        drift_list = Drift.objects.filter(Q(requester_id=user.id) | Q(gifter_id=user.id)).all().order_by(
+            '-create_time')
+        if form.is_valid():
+            drift_pk = form.cleaned_data['drift_pk']
+            drift = Drift.objects.get(id = drift_pk)
+            # 2对应success
+            drift.pending = 2
+            drift.save()
+        # return redirect(reverse('drift:pending',{'drift_list': drift_list,'form':form}))
+        # return reverse_lazy('drift:pending',{'drift_list': drift_list,'form':form})
+        return render(request, 'pending.html', {'drift_list': drift_list,'form':form})
 
 class reject_drift(LoginRequiredMixin, View):
     def get(self,request,pk):

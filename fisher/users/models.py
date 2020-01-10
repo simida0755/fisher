@@ -43,7 +43,13 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
 
-
+    def can_send_drift(self):
+        if self.beans < 1:
+            return False
+        if Drift.objects.filter(requester_id = self.id,pending=2) - Gift.objects.filter(user = self,launched=True).count()*2 > 0:
+            #如果 请求成功书数-赠送成功数*2>0，就不允许送
+            return False
+        return True
     def can_save_to_list(self,isbn):
         if is_isbn_or_key(isbn) != 'isbn':
             return False
@@ -81,7 +87,7 @@ class User(AbstractUser):
                 return False
         if self.beans < 1:
             return False
-        success_gifts = Drift.objects.filter(pending = 2,gifter_id = self.id).count()
+        success_gifts = Gift.objects.filter(user=self,launched=True).count()
         success_receive = Drift.objects.filter(pending = 2, requester_id =self.id).count()
         return False if success_gifts <= success_receive-2 else True
 

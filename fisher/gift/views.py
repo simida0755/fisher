@@ -1,13 +1,15 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import ListView
 from django.views.generic.base import View
 
 
 from fisher.gift.models import Gift
+
+
 
 
 class save_to_gift(LoginRequiredMixin,View):

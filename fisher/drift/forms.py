@@ -3,12 +3,22 @@ import re
 from django import forms
 from django.core.exceptions import ValidationError
 
+from fisher.drift.models import Drift
+
 
 def mobile_check(value):
     res = re.match('^1[356789]\d{9}$', value)
     if not res:
         # 自定义规则不抛异常表示通过
         raise ValidationError('手机号码格式错误')
+
+
+def drift_pk_check(value):
+    if int(value) not in list(Drift.objects.values_list('id',flat=True)):
+        print(value)
+        print(list(Drift.objects.values_list('id',flat=True)))
+        # 自定义规则，不抛出异常表示通过
+        raise ValidationError('鱼漂id错误')
 
 class DriftForm(forms.Form):
 
@@ -27,3 +37,9 @@ class DriftForm(forms.Form):
     })
 
 
+class MailDriftForm(forms.Form):
+    expressnumber = forms.CharField(required=False, min_length=8,max_length=20)
+    drift_pk = forms.CharField(required=True,
+                               #使用自定义验证规则
+                               validators=[drift_pk_check],
+                               )

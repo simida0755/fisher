@@ -4,6 +4,8 @@ from django.db import models
 
 from fisher.base.model import Base
 from fisher.books.spider.yushu_book import YuShuBook
+from fisher.libs.express import get_express_data
+from fisher.templates.express.dict_to_obj import dict_to_object
 
 
 class Drift(Base):
@@ -30,10 +32,17 @@ class Drift(Base):
     gift_id = models.IntegerField(verbose_name='礼物_id')
     gifter_nickname = models.CharField(max_length=20, verbose_name='礼物者_昵称')
     pending = models.SmallIntegerField(choices=pending_choices,default=1, verbose_name='鱼漂状态')
+    expressnumber = models.CharField(max_length=20,blank=True,null=True, verbose_name='快递单号')
+    express_status = models.BooleanField(default=False)
 
     # gift_id = Column(Integer, ForeignKey('gift.id'))
     # gift = relationship('Gift')
-
+    @property
+    def express_details(self):
+        if self.expressnumber:
+            result = get_express_data(self.expressnumber)
+            result = dict_to_object(result)
+            return result
 
     def pending_str(self, key):
         key_map = {

@@ -51,3 +51,4 @@ def send_template_email(email_address,email_title, template):
     # 如果发送成功
     if send_status:
         pass
+

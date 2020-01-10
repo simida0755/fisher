@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-md-2">
                     <a class="btn-normal"
-                       href="#">向他赠送此书</a>
+                       href="{% url 'wish:satisfy_wish' wish.id %}">向他赠送此书</a>
 {#                    {{ url_for('web.send_drift', gid=gift.id) }}#}
                 </div>
             </div>

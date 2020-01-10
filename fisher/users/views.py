@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import View
 
 from fisher.gift.models import Gift
-from fisher.taskapp.celery import send_verify_email
+from fisher.taskapp.celery import send_asyn_email
 from fisher.users.forms import CaptchaSignupForm
 
 User = get_user_model()
@@ -65,5 +65,5 @@ user_signup_view = UserSingupView.as_view()
 
 class user_email_view(LoginRequiredMixin,View):
     def get(self,request):
-        send_verify_email.delay('测试邮件','测试邮件的内容','simida0755@sina.com',['simida027@163.com'])
+        send_asyn_email.delay('测试邮件','测试邮件的内容','simida0755@sina.com',['simida027@163.com'])
         return render(request,'users/user_email.html')

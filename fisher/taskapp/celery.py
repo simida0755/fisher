@@ -2,7 +2,8 @@ from __future__ import absolute_import, unicode_literals
 # _*_ coding: utf-8 _*_
 import time
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
+from django.template import loader
 
 __author__ = 'john'
 
@@ -38,8 +39,13 @@ def debug_task(self):
     print(f'Request: {self.request!r}')  # pragma: no cover
 
 
+
 @app.task()
-def send_verify_email(*args,**kwargs):
-    for i in range(20):
-        time.sleep(1)
-    send_mail(*args,**kwargs)
+def send_asyn_email(*args,**kwargs):
+    send_mail(*args, **kwargs)
+
+@app.task()
+def send_asyn_html_mail(subject, html_content ,recipient_list):
+    msg = EmailMessage(subject, html_content, settings.EMAIL_HOST_USER, recipient_list)
+    msg.content_subtype = "html" # Main content is now text/html
+    msg.send()

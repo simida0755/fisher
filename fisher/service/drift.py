@@ -5,7 +5,7 @@ from fisher.books.view_models.book import BookViewModel
 from fisher.drift.models import Drift
 
 
-from fisher.libs.email import send_template_email
+from fisher.libs.email_lib import send_template_email
 
 __author__ = 'john'
 
