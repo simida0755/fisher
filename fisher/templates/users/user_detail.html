@@ -1,36 +1,57 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static thumbnail %}
 
-{% block title %}User: {{ object.username }}{% endblock %}
+{% block title %}{{ object.username }} - {{ block.super }}{% endblock %}
+
+{% block css %}
+    <link href="{% static 'css/user_profile.css' %}" rel="stylesheet">
+{% endblock css %}
 
 {% block content %}
-<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            {% thumbnail  object.image "x180" as im %}
+                <img src="{{ im.url }}" alt="用户头像">
+            {% empty %}
+                <img src="{% static 'img/user.png' %}" height="180px" alt="没有头像"/>
+            {% endthumbnail %}
 
-  <div class="row">
-    <div class="col-sm-12">
+        </div>
 
-      <h2>{{ object.username }}</h2>
-      {% if object.name %}
-        <p>{{ object.name }}</p>
-      {% endif %}
+        <div class="col-md-7">
+            <div class="card card-body"><p>{{ object.introduction }}</p></div>
+        </div>
+        <div class="col-md-3">
+            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            {{ object.nick_name }}
+            <br/>
+            <i class="fa fa-envelope" aria-hidden="true"></i><a class="email" href="mailto:{{ object.email }}">   {{ object.email }}</a><br/>
+            {% if object.adress %}
+                <i class="fa fa-briefcase" aria-hidden="true"></i>  {{ object.adress }} <br/>
+            {% endif %}
+            {% if object.mobile %}
+                <i class="fa fa-map-marker" aria-hidden="true"></i>  {{ object.mobile }} <br/>
+            {% endif %}
+            <div class="mb-2"></div>
+            <!--自己的页面显示更新按钮-->
+            {% if request.user.username == object.username %}
+                <a class="btn btn-primary" href="{% url 'users:update' %}">更新信息</a>
+            {% endif %}
+        </div>
     </div>
-  </div>
 
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
+    <div class="clear mb-3"></div>
+    <div><span>用户名：</span><span>{{ object.username }}</span></div>
+    <div><span>昵称：</span><span>{{ object.nick_name }}</span></div>
+    <div><span>生日：</span><span>{{ object.birthday }}</span></div>
+    <div><span>性别：</span><span>{{ object.gender }}</span></div>
+    <div><span>地址：</span><span>{{ object.adress }}</span></div>
+    <div><span>手机号：</span><span>{{ object.mobile }}</span></div>
+    <div><span>送出/收到：</span><span>{{ object.send_receive }}</span></div>
+    <div><span>当前鱼豆：</span><span>{{ object.beans }}</span></div>
+    <div><span>登录邮箱：</span><span>{{ object.email }}</span></div>
+    <div><span>修改资料 </span><a
+            href="{% url 'users:update' %}">修改</a>
+    </div>
 
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
-</div>
-<!-- End Action buttons -->
-{% endif %}
-
-
-</div>
 {% endblock content %}
-

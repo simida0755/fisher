@@ -5,7 +5,7 @@ from django.db import models
 from fisher.base.model import Base
 from fisher.books.spider.yushu_book import YuShuBook
 from fisher.libs.express import get_express_data
-from fisher.templates.express.dict_to_obj import dict_to_object
+from fisher.libs.json_to_obj import complex_dict_to_object
 
 
 class Drift(Base):
@@ -40,8 +40,8 @@ class Drift(Base):
     @property
     def express_details(self):
         if self.expressnumber:
-            result = get_express_data(self.expressnumber)
-            result = dict_to_object(result)
+            response = get_express_data(self.expressnumber)
+            result = complex_dict_to_object(response)
             return result
 
     def pending_str(self, key):

@@ -13,7 +13,6 @@ class UserChangeForm(forms.UserChangeForm):
 
 
 class UserCreationForm(forms.UserCreationForm):
-
     error_message = forms.UserCreationForm.error_messages.update(
         {"duplicate_username": _("This username has already been taken.")}
     )
@@ -31,5 +30,6 @@ class UserCreationForm(forms.UserCreationForm):
 
         raise ValidationError(self.error_messages["duplicate_username"])
 
+
 class CaptchaSignupForm(SignupForm):
-    captcha = CaptchaField(error_messages={'invalid':'验证码错误'})
+    captcha = CaptchaField(error_messages={'invalid': '验证码错误'})

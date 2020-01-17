@@ -66,12 +66,23 @@ def dict_to_object(dictObj):
 def complex_dict_to_object(Obj):
     if not (isinstance(Obj, dict) or isinstance(Obj, list)):
         return Obj
+    inst = Dict()
     if isinstance(Obj, dict):
-        inst = Dict()
         for k, v in Obj.items():
             inst[k] = complex_dict_to_object(v)
         return inst
-    elif isinstance(Obj, list):
+    if isinstance(Obj, list):
+        obj_list = []
         for x in Obj:
-            complex_dict_to_object(x)
+            obj_list.append(complex_dict_to_object(x))
+            # x = complex_dict_to_object(x)
+        return obj_list
 
+
+if __name__=='__main__':
+    result =complex_dict_to_object(database)
+    print(result.status)
+    print(result.result.list)
+    for x in result.result.list:
+        print(x.time)
+        print(x.status)

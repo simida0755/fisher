@@ -73,6 +73,7 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
     "rest_framework",
+    'sorl.thumbnail',
     "django_celery_beat",
     'captcha',
     'djcelery_email',

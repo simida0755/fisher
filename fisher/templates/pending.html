@@ -68,15 +68,13 @@
                                             <div class="op_express_delivery_main_content opui-scroll-ctrl-content opui-scroll-onwheel">
                                                 <div style="">
                                                     <ul class="op_express_delivery_timeline_box">
-                                                        {% for line in drift.express_details.result %}
+                                                        {% for line in drift.express_details.result.list %}
                                                             <li class="op_express_delivery_timeline_new c-clearfix">
                                                                 <div class="op_express_delivery_timeline_title">
                                                                     <div class="op_express_delivery_timeline_circle op_express_delivery_timeline_circle">
                                                                         <i class="c-icon op_express_delivery_timeline_circle_red"></i>
                                                                     </div>
-                                                                    {% for key,value in line.items %}
-                                                                    <div class="op_express_delivery_timeline_info">2019年12月11日 下午1:51:23<br>【徐州市】 快件已由【菜鸟的徐州御景湾一期今世缘华盈超市店】代签收, 如有问题请电联（18752169430 / 4001787878）, 感谢您使用中通快递, 期待再次为您服务!</div>
-                                                                    {% endfor %}
+                                                                    <div class="op_express_delivery_timeline_info">{{ line.time }}<br>{{ line.status }}</div>
                                                                         </div>
                                                             </li>
                                                         {% endfor %}

@@ -3,6 +3,8 @@
 {% block head %}
     {{ block.super }}
      <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -10,6 +12,7 @@
         </div>
     </div>
     <div id="books" class="row">
+        <div v-html="message"></div>
         {% for gift in gift_list %}
             <div class="col-md-4 book-container">
                 <a href="{% url 'books:book_detail' isbn=gift.isbn %}" class="">
@@ -26,4 +29,15 @@
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+{% block scripts %}
+        {{ block.super }}
+    <script>
+new Vue({
+  el: '#books',
+  data: {
+    message: '<h1>菜鸟教程</h1>'
+  }
+})
+</script>
 {% endblock %}

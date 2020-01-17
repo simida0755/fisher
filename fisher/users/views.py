@@ -16,7 +16,6 @@ User = get_user_model()
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
-
     model = User
     slug_field = "username"
     slug_url_kwarg = "username"
@@ -26,15 +25,14 @@ user_detail_view = UserDetailView.as_view()
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-
     model = User
-    fields = ["name"]
+    fields = ["name",'nick_name','birthday','gender','adress','mobile','image']
 
     def get_success_url(self):
         return reverse("users:detail", kwargs={"username": self.request.user.username})
 
     def get_object(self):
-        return User.objects.get(username=self.request.user.username)
+        return self.request.user
 
     def form_valid(self, form):
         messages.add_message(
@@ -47,7 +45,6 @@ user_update_view = UserUpdateView.as_view()
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):
-
     permanent = False
 
     def get_redirect_url(self):
@@ -61,9 +58,11 @@ class UserSingupView(SignupView):
     template_name = 'users/signup.html'
     form_class = CaptchaSignupForm
 
+
 user_signup_view = UserSingupView.as_view()
 
-class user_email_view(LoginRequiredMixin,View):
-    def get(self,request):
-        send_asyn_email.delay('测试邮件','测试邮件的内容','simida0755@sina.com',['simida027@163.com'])
-        return render(request,'users/user_email.html')
+
+class user_email_view(LoginRequiredMixin, View):
+    def get(self, request):
+        send_asyn_email.delay('测试邮件', '测试邮件的内容', 'simida0755@sina.com', ['simida027@163.com'])
+        return render(request, 'users/user_email.html')
