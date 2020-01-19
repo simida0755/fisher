@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static comments crispy_forms_tags thumbnail %}
+
+
+{#{% block title %}{{ bookarticle.title|title }} - {{ block.super }}{% endblock %}#}
+
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">书语首页</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'books:book_detail' book.isbn %}">《{{ book.title }}》详情</a></li>
+            <li class="breadcrumb-item active" aria-current="page">书语</li>
+        </ol>
+        </nav>
+        <div class="row">
+            <!-- Post Content Column -->
+            <div class="col-lg-8">
+                <!-- Title -->
+                <h2 class="text-center">{{ bookarticle.title|title }}</h2>
+                <!-- Author -->
+                <p class="text-left">
+                    <a href="{% url 'users:detail' bookarticle.user.username %}">{{ bookarticle.user.get_profile_name }}</a>
+                    发表于{{ bookarticle.created_time }}
+                </p>
+                <hr>
+                <!-- 文章图片 -->
+                {% thumbnail bookarticle.image "800x600" as im %}
+                    <img src="{{ im.url }}" alt="文章图片" class="card-img-top">
+                {% empty %}
+                    <img class="img-fluid rounded" src="http://placehold.it/1920x1080" alt="Card Image">
+                {% endthumbnail %}
+                <hr>
+                <!-- Post Content -->
+                <p class="card-text">{{ bookarticle.get_markdown|safe }}</p>
+                <hr>
+                <!-- Comments Form -->
+                <div class="card my-4">
+                    <h5 class="card-header">评论</h5>
+                    <div class="card-body">
+                        {% if user.is_authenticated %}
+                            {% get_comment_form for bookarticle as form %}
+                            <form action="{% comment_form_target %}" method="POST">
+                                {% csrf_token %}
+                                <div id="id_comment" class="form-group">
+                                    <textarea name="comment" rows="5" maxlength="400" class="textarea form-control"></textarea>
+                                </div>
+                                {{ form.content_type }}
+                                {{ form.object_pk }}
+                                {{ form.timestamp }}
+                                {{ form.security_hash }}
+                                <input type="hidden" name="next" value="{% url 'book_articles:article' bookarticle.id %}"/>
+                                <input class="btn btn-info" type="submit" value="提交" id="id_submit"/>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Single Comment -->
+                {% get_comment_list for bookarticle as comment_list %}
+                {% for comment in comment_list %}
+                    <div class="media mb-4">
+                        {% thumbnail comment.user.picture "x50" as im %}
+                            <img class="d-flex mr-3 rounded-circle" src="{{ im.url }}" alt="用户头像" id="pic"/>
+                        {% empty %}
+                            <img class="d-flex mr-3 rounded-circle" src="{% static 'img/user.png' %}" height="50px" alt="没有头像"/>
+                        {% endthumbnail %}
+                        <div class="media-body">
+                            <h5 class="mt-0">{{ comment.user.get_profile_name }}</h5>
+                            {{ comment }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Sidebar Widgets Column -->
+            <div class="col-md-4">
+                <!-- Write Article Widget -->
+                {% if request.user.is_authenticated %}
+                    <div class="card my-4">
+                        <div class="card-body text-center">
+
+                            {% if request.user.username == bookarticle.user.username %}
+                                <a class="btn btn-primary" href="#" title="编辑文章">
+{#                                {% url 'articles:edit_article' article.pk %}#}
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 编辑</a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- 云标签 -->
+                <div class="card my-4">
+                    <h5 class="card-header">云标签</h5>
+                    <div class="card-body">
+                        {% for tag in bookarticle.tags.all %}
+                            <a href="#"><span class="badge badge-info">{{ tag }}</span></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+{% endblock content %}

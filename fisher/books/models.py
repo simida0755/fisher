@@ -13,6 +13,7 @@ from django.db import models
 from fisher.base.model import Base
 
 
+
 class Book(Base):
     title = models.CharField('书名', max_length=50)
     author = models.CharField('作者', max_length=30)
@@ -35,3 +36,16 @@ class Book(Base):
     def auther_save(self,dict):
         if dict['author']:
             self.author = dict['author'][0]
+
+    @staticmethod
+    def get_or_create(isbn):
+        book = Book.objects.get(isbn = isbn)
+        if book:
+            return book
+        else:
+            from fisher.books.spider.yushu_book import YuShuBook
+            yushu_book = YuShuBook()
+            yushu_book.search_by_isbn(isbn)
+            book = Book.objects.get(isbn=isbn)
+            return book
+

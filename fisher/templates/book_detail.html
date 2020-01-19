@@ -76,6 +76,7 @@
         {% else %}
             <div class="col-md-3">
                 <span class="bg-info">已添加至赠送清单</span>
+                <div><a href="{% url 'book_articles:write_new' book.isbn %}" > <span>为此书写书语</span></a></div>
             </div>
         {% endif %}
     </div>

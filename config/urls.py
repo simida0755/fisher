@@ -14,6 +14,7 @@ urlpatterns = [
     # User management
     path("users/", include("fisher.users.urls", namespace="users")),
     path("books/", include("fisher.books.urls", namespace="books")),
+    path("book_articles/", include("fisher.book_articles.urls", namespace="book_articles")),
     path("gift/", include("fisher.gift.urls", namespace="gift")),
     path("wish/", include("fisher.wish.urls", namespace="wish")),
     path("drift/", include("fisher.drift.urls", namespace="drift")),
@@ -22,6 +23,8 @@ urlpatterns = [
 
     path("accounts/", include("allauth.urls")),
     path('captcha/',include('captcha.urls')),
+    path('markdownx/', include('markdownx.urls')),
+    path('comments/', include('django_comments.urls')),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

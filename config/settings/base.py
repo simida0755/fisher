@@ -77,6 +77,9 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     'captcha',
     'djcelery_email',
+    'django_comments',
+    'taggit',
+    'markdownx',
 ]
 
 LOCAL_APPS = [
@@ -85,6 +88,7 @@ LOCAL_APPS = [
     "fisher.gift.apps.GiftConfig",
     "fisher.wish.apps.WishConfig",
     "fisher.drift.apps.DriftConfig",
+    "fisher.book_articles.apps.BookArticlesConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -274,6 +278,13 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 
+
+# Markdown相关设置 https://neutronx.github.io/django-markdownx/customization/#settings
+MARKDOWNX_UPLOAD_MAX_SIZE = 5 * 1024 * 1024  # 允许上传的最大图片大小为5MB
+MARKDOWNX_IMAGE_MAX_SIZE = {'size': (1000, 1000), 'quality': 100}  # 图片最大为1000*1000, 不压缩
+
+MARKDOWNX_SERVER_CALL_LATENCY = 250
+
 # spider setting
 PER_PAGE = env("PER_PAGE",default =30)
 
@@ -286,3 +297,4 @@ BEANS_UPLOAD_ONE_BOOK = env('BEANS_UPLOAD_ONE_BOOK',default=0.5)
 DOUBAN_APIKEY = env('DJANGO_DOUBAN_APIKEY')
 
 EXPRESS_APPCODE = env('DJANGO_EXPRESS_APPCODE')
+

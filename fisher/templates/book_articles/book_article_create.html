@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block title %}写书评 - {{ block.super }}{% endblock %}
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">书语首页</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'books:book_detail' book.isbn %}">《{{ book.title }}》详情</a></li>
+            <li class="breadcrumb-item active" aria-current="page">写书语</li>
+        </ol>
+    </nav>
+    <form action="{% url 'book_articles:write_new' book.isbn %}" enctype="multipart/form-data" id="article-form" method="post" role="form">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="hidden" id="isbn" name="isbn" value="{{ book.isbn }}"/>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary publish">发表</button>
+            <button type="button" class="btn btn-default draft">保存草稿</button>
+            <a class="btn btn-light" style="float:right" href="{% url 'books:book_detail' book.isbn %}">取消</a>
+{#            暂时跳到书籍详情#}
+        </div>
+    </form>
+    {{ form.media }}
+
+{#    实现markdownx预览用的#}
+
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/book_articles.js' %}"></script>
+{% endblock scripts %}
