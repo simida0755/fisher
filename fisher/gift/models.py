@@ -17,27 +17,10 @@ class Gift(Base):
         ordering = ('-create_time',)
         unique_together = ('user', 'isbn')  # 联合唯一键
 
-
-    # def get_user_gift(self, user):
-    #     gift = user.user__gift.all()
-    #     return gift
-
     def is_yourself_gift(self,user):
         if self.user == user:
             return True
 
-
-    # @classmethod
-    # def get_wish_counts(cls,isbn_list):
-    #     from fisher.wish.models import Wish
-    #     # 条件表达式
-    #     count_list = db.session.query(func.count(Wish.id),Wish.isbn).filter(
-    #         Wish.launched == False,
-    #         Wish.isbn.in_(isbn_list),
-    #         Wish.status==1).group_by(
-    #         Wish.isbn).all()
-    #     count_list = [{'count': w[0], 'isbn': w[1]} for w in count_list]
-    #     return count_list
 
     @property
     def get_wish_counts(self):

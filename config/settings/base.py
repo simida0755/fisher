@@ -88,7 +88,8 @@ LOCAL_APPS = [
     "fisher.gift.apps.GiftConfig",
     "fisher.wish.apps.WishConfig",
     "fisher.drift.apps.DriftConfig",
-    "fisher.book_articles.apps.BookArticlesConfig"
+    "fisher.book_articles.apps.BookArticlesConfig",
+    "fisher.messager.apps.MessagerConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -297,4 +298,3 @@ BEANS_UPLOAD_ONE_BOOK = env('BEANS_UPLOAD_ONE_BOOK',default=0.5)
 DOUBAN_APIKEY = env('DJANGO_DOUBAN_APIKEY')
 
 EXPRESS_APPCODE = env('DJANGO_EXPRESS_APPCODE')
-

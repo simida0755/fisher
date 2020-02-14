@@ -30,7 +30,7 @@
                         </div>
                         <div class="card-footer text-muted">
                             <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name }}</a>
-                            发表于{{ article.created_at }}
+                            发表于{{ article.create_time }}
 
                             {% for tag in article.tags.names %}
                                 <a href="#"><span class="badge badge-info">{{ tag }}</span></a>
