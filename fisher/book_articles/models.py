@@ -7,6 +7,8 @@ from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 from taggit.managers import TaggableManager
 
+from fisher.books.models import Book
+
 
 class BookArticleQuerySet(models.query.QuerySet):
     """自定义QuerySet，提高模型类的可用性"""
@@ -15,6 +17,21 @@ class BookArticleQuerySet(models.query.QuerySet):
         """返回已发表的书评"""
         return self.filter(status="P")
 
+    def get_drafts(self):
+        """返回未发表的草稿"""
+        return self.filter(status="D")
+
+    def get_counted_tags(self):
+        """统计所有已发布的文章中，每一个标签的数量(大于0的)"""
+        tag_dict = {}
+        for obj in self.get_published():
+            for tag in obj.tags.names():
+                if tag not in tag_dict:
+                    tag_dict[tag] = 1
+
+                else:
+                    tag_dict[tag] += 1
+        return tag_dict.items()
 
 class BookArticle(Base):
     STATUS = (("D", "Draft"), ("P", "Published"))
@@ -40,3 +57,7 @@ class BookArticle(Base):
     def get_markdown(self):
         # 将Markdown文本转换成HTML
         return markdownify(self.content)
+
+    @property
+    def book(self):
+        return Book.get_or_create(self.isbn)

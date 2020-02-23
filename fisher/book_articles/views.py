@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.views.generic.base import View
 
 from fisher.book_articles.forms import BookArticleForm
@@ -12,7 +12,30 @@ from fisher.books.models import Book
 from fisher.drift.forms import DriftForm, MailDriftForm
 from fisher.drift.models import Drift
 from fisher.gift.models import Gift
+from fisher.helpers import AuthorRequiredMixin
 from fisher.service.drift import DriftService
+
+class Book_ArticlesListView(LoginRequiredMixin,ListView):
+    '''书语列表'''
+    model = BookArticle
+    paginate_by = 20
+    context_object_name = "book_articles"
+    template_name = 'book_articles/book_article_list.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(Book_ArticlesListView, self).get_context_data(*args, **kwargs)
+        context['popular_tags'] = BookArticle.objects.get_counted_tags()
+        return context
+
+    def get_queryset(self, **kwargs):
+        return BookArticle.objects.get_published()
+
+class DraftsListView(Book_ArticlesListView):
+    """草稿箱文章列表"""
+
+    def get_queryset(self, **kwargs):
+        # 当前用户的草稿
+        return BookArticle.objects.filter(user=self.request.user).get_drafts()
 
 
 class Book_ArticleCreateView(LoginRequiredMixin, CreateView):
@@ -35,8 +58,22 @@ class Book_ArticleCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, self.messages)
         return reverse('index')
 
+class EditBookArticleView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):  # 注意类的继承顺序
+    """编辑文章"""
+    model = BookArticle
+    message = "您的文章编辑成功！"
+    form_class = BookArticleForm
+    template_name = 'book_articles/book_article_update.html'
 
-class BookArticleDetailView(LoginRequiredMixin, DetailView):
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(EditBookArticleView, self).form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request, self.message)
+        return reverse('book_articles:list')
+
+class Book_ArticleDetailView(LoginRequiredMixin, DetailView):
     '''查看书语'''
     model = BookArticle
     template_name = 'book_articles/book_article_detail.html'

@@ -82,8 +82,8 @@
                         <div class="card-body text-center">
 
                             {% if request.user.username == bookarticle.user.username %}
-                                <a class="btn btn-primary" href="#" title="编辑文章">
-{#                                {% url 'articles:edit_article' article.pk %}#}
+                                <a class="btn btn-primary" href="{% url 'book_articles:edit_article' bookarticle.pk %}" title="编辑文章">
+
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 编辑</a>
                             {% endif %}
 

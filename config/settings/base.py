@@ -67,6 +67,7 @@ DJANGO_APPS = [
     # "django.contrib.admin",
 ]
 THIRD_PARTY_APPS = [
+    "channels",
     "crispy_forms",
     "allauth",
     "allauth.account",
@@ -90,6 +91,7 @@ LOCAL_APPS = [
     "fisher.drift.apps.DriftConfig",
     "fisher.book_articles.apps.BookArticlesConfig",
     "fisher.messager.apps.MessagerConfig",
+    'fisher.notifications.apps.NotificationsConfig',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -298,3 +300,17 @@ BEANS_UPLOAD_ONE_BOOK = env('BEANS_UPLOAD_ONE_BOOK',default=0.5)
 DOUBAN_APIKEY = env('DJANGO_DOUBAN_APIKEY')
 
 EXPRESS_APPCODE = env('DJANGO_EXPRESS_APPCODE')
+
+
+# ASGI server setup
+ASGI_APPLICATION = 'config.routing.application'
+
+# 频道层的缓存
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [f'{env("REDIS_URL", default="redis://127.0.0.1:6379")}/3', ],  # channel layers缓存使用Redis 3
+        },
+    },
+}

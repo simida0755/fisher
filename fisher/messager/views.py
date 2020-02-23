@@ -69,14 +69,14 @@ def send_message(request):
             message=message
         )
 
-        # # channel_layer = get_channel_layer()
-        # payload = {
-        #     'type': 'receive',
-        #     'message': render_to_string('messager/single_message.html', {"message": msg}),
-        #     'sender': sender.username
-        # }
-        # # group_send(group: 所在组-接收者的username, message: 消息内容)
-        # # async_to_sync(channel_layer.group_send)(recipient.username, payload)
+        channel_layer = get_channel_layer()
+        payload = {
+            'type': 'receive',
+            'message': render_to_string('messager/single_message.html', {"message": msg}),
+            'sender': sender.username
+        }
+        # group_send(group: 所在组-接收者的username, message: 消息内容)
+        async_to_sync(channel_layer.group_send)(recipient.username, payload)
 
         return render(request, 'messager/single_message.html', {'message': msg})
 

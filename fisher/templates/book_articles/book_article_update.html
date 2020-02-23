@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block title %}更新文章 - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">书语首页</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'books:book_detail' bookarticle.book.isbn %}">《{{ bookarticle.book.title }}》详情</a></li>
+            <li class="breadcrumb-item active" aria-current="page">写书语</li>
+        </ol>
+    </nav>
+    <form action="{% url 'book_articles:edit_article' bookarticle.pk %}" enctype="multipart/form-data" id="article-form" method="post" role="form">
+        {% csrf_token %}
+        {{ form|crispy }}
+{#        <input type="hidden" id="isbn" name="isbn" value="{{ bookarticle.pk }}"/>#}
+        <div class="form-group">
+            <button type="button" class="btn btn-primary update">更新</button>
+            <button type="button" class="btn btn-default draft">保存草稿</button>
+            <a href="{% url 'book_articles:drafts' %}" class="btn btn-default">取消</a>
+        </div>
+    </form>
+    {{ form.media }}
+
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/book_articles.js' %}"></script>
+{% endblock scripts %}

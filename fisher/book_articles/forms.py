@@ -11,4 +11,4 @@ class BookArticleForm(forms.ModelForm):
     content = MarkdownxFormField()
     class Meta:
         model = BookArticle
-        fields = ["title", "content", "image", "tags", "status", "edited"]
+        fields = ["title", "content", "image", 'isbn',"tags", "status", "edited"]

@@ -23,18 +23,18 @@ $(function () {
         return false;
     });
 
-    // // WebSocket连接，使用wss(https)或者ws(http)
-    // const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
-    // const ws_path = ws_scheme + "://" + window.location.host + "/ws/" + currentUser + "/";
-    // const ws = new ReconnectingWebSocket(ws_path);
-    // // 监听后端发送过来的消息
-    // ws.onmessage = function (event) {
-    //     const data = JSON.parse(event.data);
-    //     if (data.sender === activeUser) {  // 发送者为当前选中的用户
-    //         $(".send-message").before(data.message); // 将接收到的消息插入到聊天框
-    //         scrollConversationScreen();  // 滚动条下拉到底
-    //     }
-    // }
+    // WebSocket连接，使用wss(https)或者ws(http)
+    const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    const ws_path = ws_scheme + "://" + window.location.host + "/ws/" + currentUser + "/";
+    const ws = new ReconnectingWebSocket(ws_path);
+    // 监听后端发送过来的消息
+    ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        if (data.sender === activeUser) {  // 发送者为当前选中的用户
+            $(".send-message").before(data.message); // 将接收到的消息插入到聊天框
+            scrollConversationScreen();  // 滚动条下拉到底
+        }
+    }
 });
 
 /*
