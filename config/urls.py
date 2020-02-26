@@ -19,6 +19,8 @@ urlpatterns = [
     path("wish/", include("fisher.wish.urls", namespace="wish")),
     path("drift/", include("fisher.drift.urls", namespace="drift")),
     path("messages/", include("fisher.messager.urls", namespace="messages")),
+    path("notifications/", include("fisher.notifications.urls", namespace="notifications")),
+
 
 
     path("accounts/", include("allauth.urls")),
