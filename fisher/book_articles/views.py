@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.views.generic.base import View
+from django_comments.signals import comment_was_posted
 
 from fisher.book_articles.forms import BookArticleForm
 from fisher.book_articles.models import BookArticle
@@ -13,6 +14,7 @@ from fisher.drift.forms import DriftForm, MailDriftForm
 from fisher.drift.models import Drift
 from fisher.gift.models import Gift
 from fisher.helpers import AuthorRequiredMixin
+from fisher.notifications.views import notification_handler
 from fisher.service.drift import DriftService
 
 class Book_ArticlesListView(LoginRequiredMixin,ListView):
@@ -86,3 +88,13 @@ class Book_ArticleDetailView(LoginRequiredMixin, DetailView):
         isbn = BookArticle.objects.get(id = self.kwargs['pk']).isbn
         context['book'] = Book.get_or_create(isbn = isbn)
         return context
+
+def notify_comment(**kwargs):
+    '''文章有评论时通知作者'''
+    actor = kwargs['request'].user
+    obj = kwargs['comment'].content_object
+
+    notification_handler(actor, obj.user, 'C' , obj)
+
+#观察者模式 = 订阅[列表] +通知（同步）
+comment_was_posted.connect(receiver = notify_comment)

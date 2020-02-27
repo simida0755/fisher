@@ -3,9 +3,10 @@
 
 {% block title %}通知 - {{ block.super }}{% endblock %}
 
-{% block css %}
+{% block head %}
+    {{ block.super }}
     <link href="{% static 'css/notifications.css' %}" rel="stylesheet">
-{% endblock css %}
+{% endblock head %}
 
 {% block content %}
     <h4>

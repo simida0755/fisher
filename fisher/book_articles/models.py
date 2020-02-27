@@ -61,14 +61,14 @@ class BookArticle(Base):
     def save(self, *args, **kwargs):
         super(BookArticle, self).save(*args, **kwargs)
 
-        if not self.reply:
-            channel_layer = get_channel_layer()
-            payload = {
-                "type": "receive",
-                "key": "additional_news",
-                "actor_name": self.user.username
-            }
-            async_to_sync(channel_layer.group_send)('notifications', payload)
+
+        channel_layer = get_channel_layer()
+        payload = {
+            "type": "receive",
+            "key": "additional_article",
+            "actor_name": self.user.username
+        }
+        async_to_sync(channel_layer.group_send)('notifications', payload)
 
     def get_markdown(self):
         # 将Markdown文本转换成HTML

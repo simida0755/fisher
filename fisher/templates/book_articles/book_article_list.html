@@ -8,17 +8,17 @@
 
 {% block content %}
     <!-- Page Content -->
+            <!-- 有新的书语时 -->
+    <div class="stream-update">
+        <a href="{% url 'book_articles:list' %}"><span class="new-posts"></span>以下是新的书语言</a>
+    </div>
+    <!-- 有新的书语时 -->
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="{% url 'book_articles:list' %}">书语列表</a></li>
             </ol>
         </nav>
-                    <!-- 有新的书语时 -->
-                <div class="stream-update">
-                    <a href="{% url 'book_articles:list' %}"><span class="new-posts"></span>以下是新的书语言</a>
-                </div>
-                <!-- 有新的书语时 -->
         <div class="row">
             <!-- Blog Entries Column -->
             <div class="col-md-8">
@@ -34,7 +34,7 @@
                         <div class="card-body">
                             <a href="{% url 'books:book_detail'  article.book.isbn %}" class="card-title">{{ article.book.title }}</a>
                             <h3 class="card-title">{{ article.title|title }}</h3>
-                            <p class="">{{ article.get_markdown|safe|truncatechars:100 }}</p>
+                            <p class="">{{ article.get_markdown|safe|truncatechars:50 }}</p>
                         </div>
                         <div class="card-footer text-muted">
                             <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name }}</a>
@@ -107,3 +107,20 @@
     <!-- /.container -->
 
 {% endblock content %}
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery.waypoints.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/infinite.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/book_articles_list.js' %}" type="text/javascript"></script>
+    <script>
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onBeforePageLoad: function () {
+                $('.load').show();
+            },
+            onAfterPageLoad: function ($items) {
+                $('.load').hide();
+            }
+        });
+    </script>
+{% endblock scripts %}
