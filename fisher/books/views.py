@@ -24,7 +24,6 @@ class book_search_view(View):
             isbn_or_key = is_isbn_or_key(q) #判断是isbn，还是key
             yushu_book = YuShuBook()    #创建一个书籍搜索实例
             if isbn_or_key == 'isbn':   #如果关键字是isbn
-
                     yushu_book.search_by_isbn(q)    #使用书籍搜索实例的搜索ISBN接口方法
             else:   #如果关键字是key
                 yushu_book.search_by_keyword(q, page)   #使用key接口方法

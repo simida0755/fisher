@@ -83,9 +83,9 @@
                 {% if request.user.is_authenticated %}
                     <div class="card my-4">
                         <div class="card-body text-center">
-                            <a class="btn btn-success" href="#" title="写文章">
+                            <a class="btn btn-success" href="{% url "gift:user" %}" title="写文章">
 {#                               {% url 'book_articles:write_new' %}#}
-                                <i class="fa fa-pencil" aria-hidden="true"></i> 写文章</a>
+                                <i class="fa fa-pencil" aria-hidden="true"></i> 给要赠送的书籍写文章</a>
                             <a class="btn btn-primary" href="{% url 'book_articles:drafts' %}" title="草稿箱">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 草稿箱</a>
                         </div>

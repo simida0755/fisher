@@ -33,9 +33,12 @@
                 <i class="fa fa-map-marker" aria-hidden="true"></i>  {{ object.mobile }} <br/>
             {% endif %}
             <div class="mb-2"></div>
+
             <!--自己的页面显示更新按钮-->
             {% if request.user.username == object.username %}
                 <a class="btn btn-primary" href="{% url 'users:update' %}">更新信息</a>
+            {% else %}
+                <a class="btn btn-primary" href="{% url 'messages:conversation_detail' object.username %}">与{{ object.get_profile_name }}对话</a>
             {% endif %}
         </div>
     </div>

@@ -95,8 +95,8 @@
         <hr style="margin-top:5px;"/>
         {% for wish in trade_wishes %}
             <div style="margin-top:30px;" class="row">
-                <div class="col-md-1">
-                    {{ wish.user.username }}
+                <div class="col-md-1" >
+                    <a href="{% url 'users:detail' wish.user.username %}">{{ wish.user.username }}</a>
                 </div>
                 <div class="col-md-2 description-font">
                     上传于{{ wish.create_time }}
@@ -117,8 +117,8 @@
         <hr style="margin-top:5px;"/>
         {% for gift in trade_gifts %}
             <div style="margin-top:30px;" class="row">
-                <div class="col-md-1">
-                    {{ gift.user.username }}
+                <div class="col-md-1" >
+                    <a href="{% url 'users:detail' gift.user.username %}" >{{ gift.user.username }}</a>
                 </div>
                 <div class="col-md-2 description-font">
                     上传于{{ gift.create_time }}
