@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-    {{ block.super }}
+{% block css %}
      <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -30,7 +27,4 @@
         {% endfor %}
     </div>
 {% endblock %}
-{% block scripts %}
-        {{ block.super }}
 
-{% endblock %}

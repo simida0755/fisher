@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load cache %}
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static '3rd/ui/remodal.css' %}">
@@ -8,6 +9,7 @@
 {% endblock %}
 {% block content %}
     {{ block.super }}
+
     <div class="row book-container">
         <div class="col-md-2">
             <img class="book-img" src="{{ book.image }}"/>

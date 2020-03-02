@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-    {{ block.super }}
-{% endblock %}
 {% block content %}
-    {{ block.super }}
     <div class="row flex-vertical-center">
         <div style="margin-top:20px;" class="col-md-6">
             <span class="sub-title">我想要的书籍  共  {{ wish_list | length }} 本</span>
@@ -47,7 +43,6 @@
     {% endfor %}
 
 {% endblock %}
-{% block scripts %}
-    {{ block.super }}
+{% block js %}
     <script src="{% static "js/util.js" %}"></script>
 {% endblock %}

@@ -1,8 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-    {{ block.super }}
-{% endblock %}
 {% block content %}
     {{ block.super }}
     <div class="row flex-vertical-center">
@@ -46,8 +43,7 @@
         </div>
     {% endfor %}
 {% endblock %}
-{% block scripts %}
-    {{ block.super }}
+{% block js %}
     <script src="{% static 'js/util.js' %}"></script>
     <script src="{% static 'js/search_result.js' %}"></script>
 {% endblock %}

@@ -1,13 +1,14 @@
 from django.conf import settings
 from django.urls import include, path, re_path
 from django.conf.urls.static import static
+from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 from allauth.account import urls
 from fisher.books.views import IndexView
 
 urlpatterns = [
-    path("", IndexView.as_view(), name="index"),
+    path("", cache_page(60 * 5)(IndexView.as_view()), name="index"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),

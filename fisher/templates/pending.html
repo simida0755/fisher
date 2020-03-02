@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-    {{ block.super }}
+{% block css %}
   <link rel="stylesheet" href="{% static 'css/pending.css' %}">
 {% endblock %}
 {% block content %}
@@ -31,31 +30,31 @@
                                 <span>{{ drift.requester_nickname }}</span>
                             {% endif %}
                         </div>
-                        <div><span>状态：</span><span
-                            {% if drift.get_pending_display == 'wating' and drift.requester_id == request.user.id%}
-                                class="status-color">等待对方邮寄</span></div>
+                        <div><span>状态：</span><span>
+                            {% if drift.get_pending_display == 'wating' and drift.requester_id == request.user.id %}
+                                class="status-color">等待对方邮寄
                             {% endif %}
-                            {% if drift.get_pending_display == 'wating' and drift.requester_id != request.user.id%}
-                                class="status-color">等待你邮寄</span></div>
+                            {% if drift.get_pending_display == 'wating' and drift.requester_id != request.user.id %}
+                                class="status-color">等待你邮寄
                             {% endif %}
                             {% if drift.get_pending_display == 'reject' and drift.requester_id == request.user.id %}
-                                class="status-color">对方已拒绝</span></div>
+                                class="status-color">对方已拒绝
                             {% endif %}
                             {% if drift.get_pending_display == 'reject' and drift.requester_id != request.user.id %}
-                                class="status-color">你已拒绝</span></div>
+                                class="status-color">你已拒绝
                             {% endif %}
                             {% if drift.get_pending_display == 'redraw' and drift.requester_id == request.user.id %}
-                                class="status-color">你已撤销</span></div>
+                                class="status-color">你已撤销
                             {% endif %}
                             {% if drift.get_pending_display == 'redraw' and drift.requester_id != request.user.id %}
-                                class="status-color">对方已撤销</span></div>
+                                class="status-color">对方已撤销
                             {% endif %}
                             {% if drift.get_pending_display == 'success' and drift.requester_id == request.user.id %}
-                                class="status-color">对方已邮寄</span></div>
+                                class="status-color">对方已邮寄
                             {% endif %}
                             {% if drift.get_pending_display == 'success' and drift.requester_id != request.user.id %}
-                                class="status-color">你已邮寄</span></div>
-                            {% endif %}
+                                class="status-color">你已邮寄
+                            {% endif %}</span></div>
                         <div><span>邮寄地址：</span><span
                                 class="space">{{ drift.recipient_name }}</span><span>{{ drift.address }}</span>
                         </div>

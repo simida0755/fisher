@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from fisher.books.views import (
     book_search_view,
@@ -8,5 +9,5 @@ from fisher.books.views import (
 app_name = "books"
 urlpatterns = [
     path("search", view=book_search_view.as_view(), name="search"),
-    path("<str:isbn>/detail", view=book_detail_view.as_view(), name="book_detail"),
+    path("<str:isbn>/detail",  cache_page(60 * 5)(book_detail_view.as_view()), name="book_detail"),
 ]
