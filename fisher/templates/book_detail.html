@@ -1,15 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% load cache %}
-{% block head %}
-    {{ block.super }}
+{% block css %}
     <link rel="stylesheet" href="{% static '3rd/ui/remodal.css' %}">
     <link rel="stylesheet" href="{% static '3rd/ui/remodal-default-theme.css' %}">
     <link rel="stylesheet" href="{% static 'css/book-detail.css' %}">
 {% endblock %}
 {% block content %}
-    {{ block.super }}
-
+{% cache  3600 book-container %}
     <div class="row book-container">
         <div class="col-md-2">
             <img class="book-img" src="{{ book.image }}"/>
@@ -56,6 +54,7 @@
             </div>
         </div>
     </div>
+{% endcache %}
     <div style="margin-top:30px;" class="row">
         {% if not has_in_gifts and not has_in_wishes %}
             <div class="col-md-1">
@@ -150,7 +149,7 @@
         <button data-remodal-action="cancel" class="remodal-cancel">不，算了</button>
     </div>
 {% endblock %}
-{% block scripts %}
+{% block js %}
     {{ block.super }}
     <script src="{% static '3rd/remodal.min.js' %}"></script>
     <script src="{% static 'js/book-detail.js' %}"></script>

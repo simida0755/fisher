@@ -51,9 +51,9 @@ class book_detail_view(View):
         book = BookViewModel(yushu_book.first)
         user = request.user
         trade_gifts = Gift.objects.filter(isbn=isbn,
-                            launched=False).all().order_by('-create_time')[:10]
+                            launched=False).all().order_by('-create_time')[:10].select_related('user',)
         trade_wishes = Wish.objects.filter(isbn=isbn,
-                            launched=False).all().order_by('-create_time')[:10]
+                            launched=False).all().order_by('-create_time')[:10].select_related('user',)
         if user.is_authenticated:
             if Gift.objects.filter(user=request.user, isbn=isbn,
                                     launched=False).first():

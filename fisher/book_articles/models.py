@@ -17,11 +17,11 @@ class BookArticleQuerySet(models.query.QuerySet):
 
     def get_published(self):
         """返回已发表的书评"""
-        return self.filter(status="P")
+        return self.filter(status="P").select_related('user',)
 
     def get_drafts(self):
         """返回未发表的草稿"""
-        return self.filter(status="D")
+        return self.filter(status="D").select_related('user',)
 
     def get_counted_tags(self):
         """统计所有已发布的文章中，每一个标签的数量(大于0的)"""

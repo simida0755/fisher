@@ -3,6 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.views.generic.base import View
 from django_comments.signals import comment_was_posted
@@ -30,7 +32,7 @@ class Book_ArticlesListView(LoginRequiredMixin,ListView):
         return context
 
     def get_queryset(self, **kwargs):
-        return BookArticle.objects.get_published()
+        return BookArticle.objects.get_published().select_related('user',)
 
 class DraftsListView(Book_ArticlesListView):
     """草稿箱文章列表"""
@@ -40,6 +42,7 @@ class DraftsListView(Book_ArticlesListView):
         return BookArticle.objects.filter(user=self.request.user).get_drafts()
 
 
+@method_decorator(cache_page(60 * 60), name='get')  # get是小写
 class Book_ArticleCreateView(LoginRequiredMixin, CreateView):
     '''发表书语'''
     model = BookArticle
@@ -82,6 +85,7 @@ class Book_ArticleDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         return BookArticle.objects.select_related('user').filter(pk=self.kwargs['pk'])  #url里定义的
+    #为什么这里要用filter，用get就报错
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

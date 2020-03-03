@@ -9,5 +9,5 @@ from fisher.books.views import (
 app_name = "books"
 urlpatterns = [
     path("search", view=book_search_view.as_view(), name="search"),
-    path("<str:isbn>/detail",  cache_page(60 * 5)(book_detail_view.as_view()), name="book_detail"),
+    path("<str:isbn>/detail", book_detail_view.as_view(), name="book_detail"),
 ]
