@@ -42,8 +42,11 @@ class Gift(Base):
 
     @classmethod
     def recent(cls):
-        recent_gift = Gift.objects.raw('select * from (select * from gift_gift order by create_time desc) tt group by isbn')
-        print(recent_gift)
+        #把获取Gift模型类中的所有数据，按照时间排序，然后按照isbn去重
+        # recent_gift = Gift.objects.raw('select * from ('
+        #                                'select * from gift_gift order by create_time desc) tt group by isbn')
+        recent_gift_isbn_list = Gift.objects.order_by('create_time').values('isbn').distinct()
+        recent_gift = Gift.objects.filter(isbn__in=recent_gift_isbn_list)
         return recent_gift
 
 

@@ -1,0 +1,47 @@
+# MySQL 连接配置
+DATABASE_URL=mysql://fisher:Fisher6.@192.168.66.132:3306/fisher
+
+# Redis连接配置
+REDIS_URL=redis://127.0.0.1:6379
+
+# Django基本配置
+DJANGO_DEBUG=Ture
+DJANGO_SETTINGS_MODULE=config.settings.production
+DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
+DJANGO_SECRET_KEY=Tb8iqRxXPbube2qD9nJBxMtkCYAEK0jqzLtXEczynjjHuV2h7duQk5Qox4lYoPDC
+
+# Django生产环境配置
+DJANGO_SECURE_SSL_REDIRECT=False
+DJANGO_ALLOWED_HOSTS=*
+DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False
+DJANGO_SECURE_HSTS_PRELOAD=False
+DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=True
+
+# 邮箱配置
+# django.core.mail.backends.smtp.EmailBackend
+# djcelery_email.backends.CeleryEmailBackend
+DJANGO_EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+DJANGO_EMAIL_HOST=smtp.sina.com
+DJANGO_EMAIL_USE_SSL=False
+DJANGO_EMAIL_USE_TLS = True
+DJANGO_EMAIL_PORT=25
+DJANGO_EMAIL_HOST_USER=simida0755@sina.com
+DJANGO_EMAIL_HOST_PASSWORD=623011562
+DJANGO_DEFAULT_FROM_EMAIL=simida0755@sina.com
+
+# Celery配置
+CELERY_BROKER_URL=redis://localhost:6379/1  # 使用Redis 1作为消息代理
+CELERY_RESULT_BACKEND=redis://localhost:6379/2  # 把任务结果存在Redis 2
+
+# spider setting
+PER_PAGE=15
+
+# The number of books uploaded recently
+RECENT_BOOK_COUNT=30
+
+# Give books add user beans
+BEANS_UPLOAD_ONE_BOOK=0.5
+
+DJANGO_DOUBAN_APIKEY=0df993c66c0c636e29ecbb5344252a4a
+
+DJANGO_EXPRESS_APPCODE=62c863d1ae434fed9282b46288032400

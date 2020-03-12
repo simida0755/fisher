@@ -74,5 +74,4 @@ class IndexView(ListView):
     def get_queryset(self):
         #按时间倒序，按isbn分组，返回不重复的isbn的gift列表
         gift_list = Gift.recent()
-
         return gift_list

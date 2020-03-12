@@ -3,19 +3,15 @@ from .base import env
 
 # GENERAL
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env(
     "DJANGO_SECRET_KEY",
     default="2I62nqJ9ZPw9XZl4JFTmSwB00abni0RHcCi7EotgVC1hKvcfzwcrfgt8ef0zwbbH",
 )
-# https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["*"]
 
 # CACHES
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#caches
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
@@ -31,17 +27,13 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
-# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
 INSTALLED_APPS += ["debug_toolbar"]  # noqa F405
-# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
 MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa F405
-# https://django-debug-toolbar.readthedocs.io/en/latest/configuration.html#debug-toolbar-config
 DEBUG_TOOLBAR_CONFIG = {
     "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
     "SHOW_TEMPLATE_CONTEXT": True,
     "SQL_WARNING_THRESHOLD": 0.5,
 }
-# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#internal-ips
 INTERNAL_IPS = ["127.0.0.1", "192.168.66.1"]
 
 
@@ -49,13 +41,10 @@ INTERNAL_IPS = ["127.0.0.1", "192.168.66.1"]
 
 # django-extensions
 # ------------------------------------------------------------------------------
-# https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
 INSTALLED_APPS += ["django_extensions"]  # noqa F405
 # Celery
 # ------------------------------------------------------------------------------
-# http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-always-eager
 CELERY_TASK_ALWAYS_EAGER = False
-# http://docs.celeryproject.org/en/latest/userguide/configuration.html#task-eager-propagates
 CELERY_TASK_EAGER_PROPAGATES = False
 # Your stuff...
 # ------------------------------------------------------------------------------
