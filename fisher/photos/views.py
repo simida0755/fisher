@@ -42,5 +42,5 @@ class PhotoDetailView(DetailView):
     template_name = 'photos/photo_detail.html'
 
     def get_queryset(self):
-        return Photo.objects.select_related('author').filter(pk=self.kwargs['pk'])  #url里定义的
+        return Photo.objects.filter(pk=self.kwargs['pk'])  #url里定义的
 
