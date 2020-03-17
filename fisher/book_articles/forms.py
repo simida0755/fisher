@@ -12,3 +12,4 @@ class BookArticleForm(forms.ModelForm):
     class Meta:
         model = BookArticle
         fields = ["title", "content", "image", 'isbn',"tags", "status", "edited"]
+

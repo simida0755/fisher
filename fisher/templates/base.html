@@ -87,9 +87,8 @@
         {% if not request.user.is_authenticated %}
             <div style="float:right">
                 <a href="{% url 'account_login' %}">登录</a>
-{#                {{ url_for('web.login') }}#}
-                <a style="margin-left: 40px;" href="{% url 'account_signup' %}">注册</a>
-{#            {{ url_for('web.register') }}#}
+                <a style="margin-left: 40px;" href="{% url 'users:captcha_signup' %}">注册</a>
+
             </div>
         {% else %}
             <ul class="navbar-nav">
@@ -102,7 +101,6 @@
 
             <a href="{% url 'users:detail' request.user.username %}">{{ request.user.username }}的鱼书</a>
             <a style="margin-left: 40px;" href="{% url 'account_logout' %}">注销</a>
-{#            {{ url_for('web.logout') }}#}
         {% endif %}
     </div>
     {% endcache %}

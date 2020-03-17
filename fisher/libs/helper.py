@@ -17,3 +17,4 @@ def is_isbn_or_key(word):
     if '_' in word and len(short_word) and word.short_word.isdigit:
         isbn_or_key = 'isbn'
     return isbn_or_key
+

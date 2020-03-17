@@ -102,3 +102,4 @@ def notify_comment(**kwargs):
 
 #观察者模式 = 订阅[列表] +通知（同步）
 comment_was_posted.connect(receiver = notify_comment)
+

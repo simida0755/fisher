@@ -31,7 +31,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 LOCALE_PATHS = [ROOT_DIR.path("locale")]
 
@@ -83,6 +83,7 @@ LOCAL_APPS = [
     "fisher.gift.apps.GiftConfig",
     "fisher.wish.apps.WishConfig",
     "fisher.drift.apps.DriftConfig",
+    "fisher.photos.apps.PhotosConfig",
     "fisher.book_articles.apps.BookArticlesConfig",
     "fisher.messager.apps.MessagerConfig",
     'fisher.notifications.apps.NotificationsConfig',

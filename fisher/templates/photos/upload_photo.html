@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block title %}上传相片{% endblock %}
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">相片首页</a></li>
+            <li class="breadcrumb-item active" aria-current="page">上传相片</li>
+        </ol>
+    </nav>
+    <form action="{% url 'photos:upload' %}" enctype="multipart/form-data" id="photoform" method="post" role="form">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="提交" />
+
+    </form>
+
+{% endblock content %}
+

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static cache %}
+{% block css %}
+     <link rel="stylesheet" href="{% static 'css/photo_list.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+        </div>
+    </div>
+    <div id="books" class="row">
+        <div v-html="message"></div>
+        {% for photo in photo_list %}
+            <div class="col-md-4 book-container">
+                <a href="#" class="">
+                    <div class="col-md-4 no-padding">
+                        <img class="book-img cssshadow" src="{{ photo.image }}">
+                    </div>
+                    <div style="margin-left: 0;" class="col-md-8 flex-vertical book-info">
+                        <span class="title">{{ photo.title }}</span>
+                        <div class="description-font"><span>作者：</span><span>{{ photo.author }}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

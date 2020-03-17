@@ -8,7 +8,7 @@ from allauth.account import urls
 from fisher.books.views import IndexView
 
 urlpatterns = [
-    path("", cache_page(60 * 5)(IndexView.as_view()), name="index"),
+    path("", IndexView.as_view(), name="index"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
@@ -19,6 +19,7 @@ urlpatterns = [
     path("gift/", include("fisher.gift.urls", namespace="gift")),
     path("wish/", include("fisher.wish.urls", namespace="wish")),
     path("drift/", include("fisher.drift.urls", namespace="drift")),
+    path("photos/", include("fisher.photos.urls", namespace="photos")),
     path("messages/", include("fisher.messager.urls", namespace="messages")),
     path("notifications/", include("fisher.notifications.urls", namespace="notifications")),
 

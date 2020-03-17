@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/book-detail.css' %}">
 {% endblock %}
 {% block content %}
-{% cache  3600 book-container %}
+{% cache  3600 book-container book %}
     <div class="row book-container">
         <div class="col-md-2">
             <img class="book-img" src="{{ book.image }}"/>

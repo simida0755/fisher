@@ -39,6 +39,7 @@ class User(AbstractUser):
     send_counter = models.IntegerField('送出', default=0)
     receive_counter = models.IntegerField('收到', default=0)
     image = models.ImageField('头像', upload_to='image/%Y%m', default='image/default.png',max_length=100)
+    photos = models
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
