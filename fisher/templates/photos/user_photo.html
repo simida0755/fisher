@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static cache %}
+{% block css %}
+     <link rel="stylesheet" href="{% static 'css/photo_list.css' %}">
+{% endblock %}
+{% block content %}
+        <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'users:detail' fisher.username %}">{{ fisher.get_profile_name }}的资料</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'photos:user' fisher.id %}">{{ fisher.get_profile_name }}的相册</a></li>
+    </ol>
+    </nav>
+    <div class="row">
+        <div class="col-md-12">
+        </div>
+    </div>
+    <div id="books" class="row">
+        <div v-html="message"></div>
+        {% for photo in photo_list %}
+            <div class="col-md-4 book-container">
+                <a href="{% url 'photos:detail' photo.id %}" class="">
+                        <img class="book-img cssshadow" src="{{ MEDIA_URL }}{{ photo.image }}">
+                    <span class="title">{{ photo.title }}</span>
+                </a>
+
+            </div>
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+

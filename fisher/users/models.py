@@ -92,6 +92,7 @@ class User(AbstractUser):
         success_receive = Drift.objects.filter(pending = 2, requester_id =self.id).count()
         return False if success_gifts <= success_receive-2 else True
 
+    @property
     def get_profile_name(self):
         if self.nick_name:
             return self.nick_name

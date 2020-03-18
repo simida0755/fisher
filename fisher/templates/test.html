@@ -1,23 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片列表布局</title>
+    <style type="text/css">
+        body,ul,h3{
+            /*清除默认格式中的margin 和 padding*/
+            margin:0;
+            padding:0;
+        }
+        ul{
+            /*清除ul默认格式中的.*/
+            list-style: none;
+        }
+        /*清除margin-top塌陷*/
+        .clearfix:before,.clearfix:after{
+            content:"";
+            display:table;
+        }
+        /*清除浮动*/
+        .clearfix:after{
+            clear:both;
+        }
+        /*兼容IE*/
+        .clearfix{
+            zoom:1;
+        }
 
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
 
-    <div class="row">
-        <div class="col-md-12">
-        </div>
+        .pic_list_con{
+            width:958px;
+            border:1px solid #ddd;
+            /*多出来的ul要剪掉*/
+            overflow:hidden;
+        }
+        .pic_list_con h3{
+            width:918px;
+            height:50px;
+            border-bottom: 1px solid #ddd;
+            /*是h3居中，不是h3中的文字居中哦！*/
+            margin:0 auto;
+        }
+        .pic_list_con h3 span{
+            /*内联元素转为内联块元素，支持全部样式*/
+            display:inline-block;
+            height:50px;
+            border-bottom: 2px solid red;
+            font: 18px/50px 'Microsoft YaHei UI';
+            padding:0 15px;
+        }
+        .pic_list_con ul{
+            width: 950px;
+            margin:20px 0 13px 20px;
+        }
+        .pic_list_con ul li{
+            width:160px;
+            height:68px;
+            /*多个div在一个页面上，默认情况是：一行一个div，但是只要在div的css中使用
+            float：left，可以使一行有多个div，这样可以把网页划分成很多块，
+            但是使用该属性会影响后面的元素，所有如果后面的div不想再被影响，
+            可以使用clear:both；
+            可以理解为清除float:left和float:right的影响，返回到默认状态。*/
+            float:left;
+            margin:0 29px 25px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="pic_list_con">
+        <h3><span>图片展示</span></h3>
+        <ul class="clearfix">
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"><span>标题内容 吃完整个</span></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"><span>标题内容 吃完整个</span></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"><span>标题内容 吃完整个</span></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"><span>标题内容 吃完整个</span></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"><span>标题内容 吃完整个</span></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"></a></li>
+            <li><a href=""><img src="images/0031.jpg" alt="商品图片"></a></li>
+        </ul>
     </div>
 
-    <div id="books" class="row">
-        <div v-html="message"></div>
-            <div class="col-md-4 book-container">
-                <a href="#" class="">
-                    <div class="col-md-4 no-padding">
-                        <img class="book-img cssshadow" src="{{ gift.book.image }}">
-                    </div>
-
-                </a>
-            </div>
-            </div>
-
-    </div>
-
-
+</body>
+</html>

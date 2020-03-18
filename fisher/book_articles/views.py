@@ -95,10 +95,15 @@ class Book_ArticleDetailView(LoginRequiredMixin, DetailView):
 
 def notify_comment(**kwargs):
     '''文章有评论时通知作者'''
+    print(kwargs['comment'].content_object)
+    print(kwargs['comment'].content_type)
     actor = kwargs['request'].user
     obj = kwargs['comment'].content_object
+    if kwargs['comment'].content_type.name == '相片':
+        notification_handler(actor, obj.author, 'C', obj)
 
-    notification_handler(actor, obj.user, 'C' , obj)
+    else:
+        notification_handler(actor, obj.user, 'C' , obj)
 
 #观察者模式 = 订阅[列表] +通知（同步）
 comment_was_posted.connect(receiver = notify_comment)

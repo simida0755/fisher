@@ -5,6 +5,9 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 from allauth.account import urls
+from django.views.static import serve
+
+from config.settings.base import MEDIA_ROOT
 from fisher.books.views import IndexView
 
 urlpatterns = [
@@ -23,8 +26,7 @@ urlpatterns = [
     path("messages/", include("fisher.messager.urls", namespace="messages")),
     path("notifications/", include("fisher.notifications.urls", namespace="notifications")),
 
-
-
+    re_path('^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
     path("accounts/", include("allauth.urls")),
     path('captcha/',include('captcha.urls')),
     path('markdownx/', include('markdownx.urls')),

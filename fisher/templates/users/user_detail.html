@@ -50,8 +50,22 @@
     <div><span>送出/收到：</span><span>{{ object.send_receive }}</span></div>
     <div><span>当前鱼豆：</span><span>{{ object.beans }}</span></div>
     <div><span>登录邮箱：</span><span>{{ object.email }}</span></div>
-    <div><span>修改资料 </span><a
-            href="{% url 'users:update' %}">修改</a>
-    </div>
+    {% if object.username != request.user.username %}
 
+        <div>
+            <span>他/她的相册 </span><a
+            href="{% url 'photos:user' object.pk %}">进入</a>
+        </div>
+    {% else %}
+        <div><span>修改资料 </span><a
+            href="{% url 'users:update' %}">修改</a>
+        </div>
+        <div>
+            <a
+            href="{% url 'photos:user' object.pk %}"><span>我的相册 </span></a>
+                    <a
+            href="{% url 'photos:upload' %}"><span>上传相片 </span></a>
+        </div>
+
+    {% endif %}
 {% endblock content %}

@@ -14,7 +14,7 @@
             <!-- Post Content Column -->
             <div class="col-lg-8">
                 <!-- Title -->
-                <h2 class="text-center">{{ photo.title|title }}</h2>
+                <h2 class="text-center">{{ photo.title }}</h2>
                 <!-- Author -->
                 <p class="text-left">
                     <a href="{% url 'users:detail' photo.author.username %}">{{ photo.author.get_profile_name }}</a>
@@ -53,7 +53,7 @@
                 {% get_comment_list for photo as comment_list %}
                 {% for comment in comment_list %}
                     <div class="media mb-4">
-                        {% thumbnail comment.user.picture "x50" as im %}
+                        {% thumbnail comment.author.picture "x50" as im %}
                             <img class="d-flex mr-3 rounded-circle" src="{{ im.url }}" alt="用户头像" id="pic"/>
                         {% empty %}
                             <img class="d-flex mr-3 rounded-circle" src="{% static 'img/user.png' %}" height="50px" alt="没有头像"/>

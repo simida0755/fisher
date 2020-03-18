@@ -5,18 +5,18 @@
   padding: 0 !important;
 }
 #books > div:nth-of-type(2n) {
-  /*margin-left: 100px;*/
+  margin-left: 100px;
 }
 .book-container {
-  /*padding: 0 !important;*/
-  /*background-color: #FFFFFF;*/
+  padding: 0 !important;
+  background-color: #FFFFFF;
   margin-top: 60px;
-  /*border: 1px solid #d0d0d0;*/
-  /*border-radius: 2px;*/
+  border: 1px solid #d0d0d0;
+  border-radius: 2px;
 }
 .book-img {
-  height: 120px;
-  width: 160px;
+  height: 166px;
+  width: 111px;
   position: relative;
   top: -30px;
   left: 10px;

@@ -151,6 +151,7 @@ STATICFILES_FINDERS = [
 # MEDIA
 # ------------------------------------------------------------------------------
 MEDIA_ROOT = str(APPS_DIR("media"))
+
 MEDIA_URL = "/media/"
 
 # TEMPLATES
@@ -173,6 +174,8 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.media',  # 将media_url上传文件路径注册到模板中
+
             ],
         },
     }
