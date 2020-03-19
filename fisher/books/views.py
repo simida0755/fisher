@@ -35,11 +35,7 @@ class book_search_view(View):
             return render(request,'search_result.html')
         return render(request,'search_result.html', {'books':books})
 
-# class book_search_view(View):
-#
-#     def get(self,request):
-#         form = SearchForm(request.GET)
-#         return HttpResponse('hehe')
+
 
 class book_detail_view(View):
 

@@ -49,8 +49,7 @@
                         </div>
                     </div>
                 {% empty %}
-                    <h4 class="no-data"><a href="#">快来成为第一个写文章的吧！</a></h4>
-{#                    {% url 'book_articles:write_new' %}#}
+                    <h4 class="no-data"><a href="{% url 'gift:user' %}">快来成为第一个写文章的吧！</a></h4>
                 {% endfor %}
 
                 {% if is_paginated %}

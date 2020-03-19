@@ -21,7 +21,7 @@ CACHES = {
 
 # TEMPLATES
 #-------------------------------------------------------------------------------
-TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
+# TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 
 
 
