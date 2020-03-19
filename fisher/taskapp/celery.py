@@ -1,9 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-# _*_ coding: utf-8 _*_
-import time
-
 from django.core.mail import send_mail, EmailMessage
-from django.template import loader
 
 __author__ = 'john'
 
