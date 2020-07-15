@@ -1,4 +1,4 @@
-**说明** 该项目已上线，等待申请固定ip开放外网访问
+
 
 ## 注册
 ![](https://github.com/simida0755/fisher/blob/master/Show_Pictures/%E6%B3%A8%E5%86%8C.png)
